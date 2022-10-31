@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/recources">
+        <file>img/blue button.png</file>
+        <file>img/menu ajout.png</file>
+        <file>img/description.png</file>
+        <file>img/X.png</file>
+        <file>img/white rectangle.png</file>
+        <file>img/affichage.png</file>
+        <file>img/excel.png</file>
+        <file>img/Eye.png</file>
+        <file>img/gear.png</file>
+        <file>img/trash.png</file>
+        <file>img/UP.png</file>
+        <file>img/upload.png</file>
+        <file>img/scroll.png</file>
+        <file>img/statistique.png</file>
+        <file>img/Report.png</file>
+        <file>img/report icon.png</file>
+        <file>img/+.png</file>
+        <file>img/porfile F.png</file>
+        <file>img/profile.png</file>
+        <file>img/qr.png</file>
+        <file>img/PDF.png</file>
+        <file>img/geolocalisation.png</file>
+        <file>img/recherche.png</file>
+    </qresource>
+</RCC>
