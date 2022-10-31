@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>1024W_F_124373243_oYeuE7JuIwDD8N59HsM3zDqHqVUpLLQ0_NW1.jpg</file>
+        <file>6462307.jpg</file>
+        <file>bouton.jfif</file>
+        <file>Capture d’écran 2022-10-03 210938.png</file>
+        <file>Capture d’écran 2022-10-16 193842.png</file>
+        <file>images.jfif</file>
+        <file>Nouveau-projet.png</file>
+        <file>of.jpg</file>
+        <file>stat2.png</file>
+        <file>télécharger.png</file>
+        <file>Nouveau-projet-_2_.png</file>
+    </qresource>
+</RCC>
