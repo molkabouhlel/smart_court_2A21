@@ -11,6 +11,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->Code->setValidator( new QIntValidator(0, 99999999, this));
+    ui->Nom->setMaxLength(10);
+    ui->cause->setMaxLength(10);
+
+
     ui->Affichage->setModel(A.afficher());
     /*for(int i=0;i<2;i++)
     ui->Affichage->setIndexWidget(ui->Affichage->model()->index(i, 7),ui->groupBox);*/
@@ -21,7 +25,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_done_clicked() //clicked on done button after adding
+void MainWindow::on_done_clicked() //Ajouter
 {
     int  code=ui->Code->text().toInt() ;
     QString nom=ui->Nom->text();
