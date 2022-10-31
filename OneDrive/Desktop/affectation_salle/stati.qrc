@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/new/sat">
-        <file>sat.png</file>
-    </qresource>
-</RCC>
