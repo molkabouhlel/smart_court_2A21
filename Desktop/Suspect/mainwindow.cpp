@@ -43,10 +43,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_supp_clicked()
 {
+    int id=ui->id->text().toInt();
+
     Suspet s1;
-    s1.setID(ui->sup->text().toInt());
     bool test1;
-    test1 =s1.supprimer(s1.getID());
+    test1 =s1.supprimer(id);
     if(test1)
     {
         ui->afficher->setModel(s.afficher());
@@ -149,3 +150,18 @@ void MainWindow::on_modifier_clicked()
                               QObject::tr("modification non effectué \n"
                                           "Click Cancel to exit."),QMessageBox::Cancel);
 }
+
+void MainWindow::on_recherche_clicked()
+{
+    int id=ui->rech->text().toInt();
+    QString cin= QString::number(id);
+if(cin!="")
+    ui->afficher->setModel(s.recherche(cin));
+else
+    ui->afficher->setModel(s.afficher());
+
+}
+
+
+
+

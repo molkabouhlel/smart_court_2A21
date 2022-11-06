@@ -34,7 +34,7 @@
     <property name="geometry">
      <rect>
       <x>420</x>
-      <y>120</y>
+      <y>160</y>
       <width>891</width>
       <height>311</height>
      </rect>
@@ -381,37 +381,6 @@ background-color: rgb(92,184, 92);</string>
      <string>(+) Ajouter un nouveau suspect</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="sup">
-    <property name="geometry">
-     <rect>
-      <x>650</x>
-      <y>70</y>
-      <width>113</width>
-      <height>22</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_33">
-    <property name="geometry">
-     <rect>
-      <x>660</x>
-      <y>30</y>
-      <width>101</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Cambria</family>
-      <pointsize>14</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>saisir cin</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="modifier">
     <property name="geometry">
      <rect>
@@ -448,6 +417,37 @@ background-color: rgb(92,184, 92);</string>
      </rect>
     </property>
    </widget>
+   <widget class="QLineEdit" name="rech">
+    <property name="geometry">
+     <rect>
+      <x>1052</x>
+      <y>120</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Cambria</family>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="recherche">
+    <property name="geometry">
+     <rect>
+      <x>1190</x>
+      <y>120</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Search</string>
+    </property>
+   </widget>
    <zorder>label</zorder>
    <zorder>supp</zorder>
    <zorder>label_41</zorder>
@@ -468,12 +468,12 @@ background-color: rgb(92,184, 92);</string>
    <zorder>label_lieu</zorder>
    <zorder>n2</zorder>
    <zorder>ajout</zorder>
-   <zorder>sup</zorder>
-   <zorder>label_33</zorder>
    <zorder>modifier</zorder>
    <zorder>label_2</zorder>
    <zorder>lineEdit</zorder>
    <zorder>afficher</zorder>
+   <zorder>rech</zorder>
+   <zorder>recherche</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
