@@ -62,4 +62,11 @@ QSqlQueryModel * Suspet::afficher()
       query.bindValue(":id",id);
         return  query.exec();
   }
+  QSqlQueryModel * Suspet::recherche(QString id)/*cherche un producteur de meme id*/
+  {
+      QSqlQueryModel * model= new QSqlQueryModel();
 
+          model->setQuery("SELECT * FROM SUSPET WHERE ID LIKE '%"+id+"%'");
+
+          return model;
+  }

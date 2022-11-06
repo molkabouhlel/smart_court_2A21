@@ -13,10 +13,10 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     Connection c;
     Suspet s;
+
+    bool test=c.createconnect();
     MainWindow w;
     w.show();
-    bool test=c.createconnect();
-
     if(test)
     {
         w.show();
