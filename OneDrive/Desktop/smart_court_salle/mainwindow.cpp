@@ -138,8 +138,44 @@ void MainWindow::on_comboBox_activated(const QString &arg1)
 
 
 
-void MainWindow::on_PDF_clicked()
+/*void MainWindow::on_PDF_clicked()
 {
  S.pdf();
 
+}*/
+void MainWindow::on_PDF_clicked()
+{
+    {
+        QSqlQuery query;
+    query.prepare("select * from SALLE where NUM_SALLE");
+     S.telechargerPDF();
+        if(query.exec()){
+
+            while(query.next())
+            {
+
+             //B.telechargerPDF(val);
+            ui->le_num_salle->setText(query.value(0).toString());
+            ui->le_etage->setCurrentText(query.value(1).toString());
+            ui->le_departement->setCurrentText(query.value(2).toString());
+            ui->le_juge->setCurrentText(query.value(3).toString());
+            ui->le_suspect->setText(query.value(4).toString());
+            QMessageBox::information(nullptr,QObject::tr("OK"),
+                       QObject::tr("Téléchargement terminé"), QMessageBox::Cancel);
+
+
+
+
+      }
+        }
+        else
+            QMessageBox::critical(nullptr, QObject::tr(" echoué"),
+                        QObject::tr("Erreur !.\n"
+                                    "Click Cancel to exit."), QMessageBox::Cancel);
+
+
+
+    }
+
 }
+

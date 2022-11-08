@@ -128,7 +128,7 @@ QSqlQueryModel * Salle::trier(int test)
     return model;
 
 }
-void Salle::pdf()
+/*void Salle::pdf()
 {
     QPrinter printer;
     printer.setOutputFormat(QPrinter::PdfFormat);
@@ -159,11 +159,48 @@ void Salle::pdf()
                   dialog.exec();
               }
               else
-                  qDebug()<<"feragh";
+                  qDebug()<<"empty";
 
               qDebug()<<"List of printers";
               QList<QPrinterInfo> printerList=QPrinterInfo::availablePrinters();
               foreach (QPrinterInfo printerInfo, printerList) {
                   qDebug()<<printerInfo.printerName();
               }
-}
+}*/
+void  Salle::telechargerPDF(){
+
+
+                    QPdfWriter pdf("‪C:/Users/Asus/OneDrive/Desktop/PDF.pdf");
+
+                      QPainter painter(&pdf);
+                     int i = 4000;
+                          painter.setPen(Qt::green);
+                          painter.setFont(QFont("Arial", 30));
+                          painter.drawText(1100,1200,"LISTES DES EMPLOYER");
+                          painter.setPen(Qt::gray);
+                          painter.setFont(QFont("Arial",14));
+                          painter.drawRect(100,100,7300,2600);
+                          painter.drawRect(0,3000,9600,500);
+                          painter.setFont(QFont("Arial",11));
+                          painter.drawText(200,3300,"num de salle");
+                          painter.drawText(1300,3300,"etage");
+                          painter.drawText(2200,3300,"departement");
+                          painter.drawText(3200,3300,"juge");
+                          painter.drawText(4200,3300,"suspect");
+
+
+                          QSqlQuery query;
+                          query.prepare("select * from Salle");
+                          query.exec();
+                          while (query.next())
+                          {
+                              painter.drawText(200,i,query.value(0).toString());
+                              painter.drawText(1300,i,query.value(2).toString());
+                              painter.drawText(2200,i,query.value(3).toString());
+                              painter.drawText(3200,i,query.value(1).toString());
+                              painter.drawText(5300,i,query.value(4).toString());
+                              painter.drawText(6700,i,query.value(5).toString());
+
+
+                             i = i + 500;
+                          }}
