@@ -2,13 +2,16 @@
 #include<QSqlQuery>
 #include <QtDebug>
 #include<QObject>
+#include<QMessageBox>
+#include <QPdfWriter>
+#include <QPainter>
 Salle::Salle()
 {
 num_salle=0;
-departement=" ";juge=" ";suspect=" ",etage=0;
+departement=" ";juge=" ";suspect=" ",etage=0; //constructeurs par defaut
 }
 
-Salle::Salle(int num_salle, QString departement, int etage,QString juge, QString suspect)
+Salle::Salle(int num_salle, QString departement, int etage,QString juge, QString suspect) //constructeurs par copie
 {this->num_salle=num_salle;this->departement=departement,this->etage=etage;this->juge=juge;this->suspect=suspect;}
 int Salle::getnum_salle(){return num_salle;}
 QString Salle::getdepartement(){return departement ;}
@@ -69,3 +72,98 @@ bool Salle ::modifier()
                          query.bindValue(":suspect", suspect);
 
                      return query.exec();}
+bool Salle::existance(QString num_salle)
+{
+    QMessageBox msgBox;
+    QSqlQuery query;
+    int count=0;
+    query.prepare("SELECT * FROM salle WHERE num_salle= ?");
+    query.addBindValue(num_salle);
+    if(query.exec() )
+    {
+        while (query.next())
+        {
+            count ++;
+        }
+        if(count==1)
+        {
+            msgBox.setText("salle deja existe");
+            msgBox.exec();
+            return 0;
+        }
+
+    }
+    return 1;
+}
+QSqlQueryModel * Salle::recherche(QString num_salle)
+{
+    QSqlQueryModel * model= new QSqlQueryModel();
+
+    model->setQuery("SELECT * FROM SALLE WHERE NUM_SALLE LIKE '"+num_salle+"'  ");
+
+    return model;
+}
+QSqlQueryModel * Salle::trier(int test)
+{
+    QSqlQueryModel *model=new QSqlQueryModel() ;
+    QSqlQuery query ;
+
+    if(test==1)
+    {
+        query.prepare("SELECT *  FROM SALLE ORDER BY DEPARTEMENT ASC ") ;
+    }
+    else if(test==2)
+    {
+        query.prepare("SELECT *  FROM SALLE ORDER BY ETAGE ASC ") ;
+    }
+    else if(test==3)
+    {
+        query.prepare("SELECT *  FROM SALLE ORDER BY NUM_SALLE ASC ") ;
+    }
+
+    if (query.exec()&&query.next())
+    {
+        model->setQuery(query) ;
+    }
+    return model;
+
+}
+void Salle::pdf()
+{
+    QPrinter printer;
+    printer.setOutputFormat(QPrinter::PdfFormat);
+                printer.setOutputFileName("C:/Users/Asus/OneDrive/Desktop/new_document.pdf");
+    QPainter painter;
+               painter.begin(&printer);
+             painter.drawText(10, 80, "num_salle ");
+              painter.drawText(10, 200, " departement ");
+              painter.drawText(10, 300, " etage ");
+              painter.drawText(10, 400, " juge ");
+              painter.drawText(10, 500, " suspect ");
+
+              painter.end();
+
+              QString filename="C:/Users/Asus/Downloads/new_document.pdf";
+              qDebug()<<"Print file name is "<<filename;
+              if(!filename.isEmpty())
+              {
+
+
+                 QPrinter printer;
+                  printer.setOutputFormat(QPrinter::PdfFormat);
+                  printer.setOutputFileName(filename);
+
+                  QPrintDialog dialog;
+                  dialog.setWindowTitle("print document");
+                  dialog.addEnabledOption(QAbstractPrintDialog::PrintSelection);
+                  dialog.exec();
+              }
+              else
+                  qDebug()<<"feragh";
+
+              qDebug()<<"List of printers";
+              QList<QPrinterInfo> printerList=QPrinterInfo::availablePrinters();
+              foreach (QPrinterInfo printerInfo, printerList) {
+                  qDebug()<<printerInfo.printerName();
+              }
+}

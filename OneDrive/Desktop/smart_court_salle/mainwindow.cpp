@@ -3,16 +3,18 @@
 #include <salle.h>
 #include <QIntValidator>
 #include <QMessageBox>
+#include <QSqlQuery>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->le_num_salle->setValidator (new QIntValidator(0, 10, this));
+    ui->le_num_salle->setValidator (new QIntValidator(0, 20, this));
     ui->tab_salle->setModel(S.afficher());
 
 
-    ui->le_etage->setValidator (new QIntValidator(0, 20, this));
+    ui->le_etage->setValidator (new QIntValidator(0, 10, this));
 
         QRegularExpression rx("^[A-Za-z]+$");
 
@@ -31,14 +33,15 @@ MainWindow::~MainWindow()
 void MainWindow::on_pb_ajouter_clicked()
 {
     int num_salle=ui->le_num_salle->text().toInt();
-     QString departement=ui->le_departement->text();
-     QString juge=ui->le_juge->text();
+     QString departement=ui->le_departement->currentText();
+     QString juge=ui->le_juge->currentText();
       QString suspect=ui->le_suspect->text();
-    int etage=ui->le_etage->text().toInt();
+    int etage=ui->le_etage->currentIndex();
 
+QString num_salle_string= QString::number(num_salle);
 
-
-
+    if(S.existance(num_salle_string))
+        {
 
     Salle S(num_salle,departement,etage,juge,suspect);
 bool test=S.ajouter();
@@ -55,16 +58,17 @@ bool test=S.ajouter();
                              "Click Cancel to exit."), QMessageBox::Cancel);
 
 }
-
+}
 
 
 
 void MainWindow::on_pb_modif_clicked()
 {
     int num_salle=ui->le_num_salle->text().toInt();
-    QString departement=ui->le_departement->text();
-    int etage=ui->le_etage->text().toInt();
-    QString juge=ui->le_juge->text();
+    QString departement=ui->le_departement->currentText();
+    int etage=ui->le_etage->currentIndex();
+    QString juge=ui->le_juge->currentText();
+
     QString suspect=ui->le_suspect->text();
 
       Salle S(num_salle,departement,etage,juge,suspect);
@@ -101,5 +105,41 @@ void MainWindow::on_pb_supprimer_clicked()
     QMessageBox::critical(nullptr, QObject::tr("not OK"),
                         QObject::tr("suppression failed.\n"
                                     "Click Cancel to exit."), QMessageBox::Cancel);
+
+}
+
+void MainWindow::on_pb_rechercher_clicked()
+
+    {
+        int num_salle=ui->le_rechercher->text().toInt();
+        QString cin= QString::number(num_salle);
+        if(num_salle!=0)
+            ui->tab_recherche->setModel(S.recherche(cin));
+        else
+            ui->tab_recherche->setModel(S.afficher());
+
+
+
+}
+
+void MainWindow::on_comboBox_activated(const QString &arg1)
+{
+    if(arg1=="num de salle")
+           ui->tab_recherche->setModel(S.trier(3));
+       else  if(arg1=="etage")
+           ui->tab_recherche->setModel(S.trier(2));
+       else  if(arg1=="departement")
+           ui->tab_recherche->setModel(S.trier(1));
+}
+
+
+
+
+
+
+
+void MainWindow::on_PDF_clicked()
+{
+ S.pdf();
 
 }

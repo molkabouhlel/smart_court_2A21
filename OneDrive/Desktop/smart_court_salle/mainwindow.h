@@ -22,6 +22,19 @@ private slots:
 
     void on_pb_supprimer_clicked();
 
+
+
+    void on_pb_rechercher_clicked();
+
+    void on_comboBox_activated(const QString &arg1);
+
+    void on_le_departement_activated(const QString &arg1);
+
+    void on_le_etage_activated(const QString &arg1);
+
+
+    void on_PDF_clicked();
+
 private:
     Ui::MainWindow *ui;
     Salle S;

@@ -2,6 +2,9 @@
 #define SALLE_H
 #include <QString>
 #include<QSqlQueryModel>
+#include<QtPrintSupport/QPrinter>
+#include<QtPrintSupport/QPrinterInfo>
+#include<QtPrintSupport/QPrintDialog>
 
 class Salle
 {
@@ -23,6 +26,10 @@ public:
     bool supprimer(int);
     bool modifier();
 
+bool existance(QString num_salle);
+QSqlQueryModel *recherche(QString num_salle);
+QSqlQueryModel * trier(int test);
+void pdf();
 
 
 
