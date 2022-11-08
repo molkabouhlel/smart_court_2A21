@@ -143,7 +143,7 @@ void MainWindow::on_comboBox_activated(const QString &arg1)
  S.pdf();
 
 }*/
-void MainWindow::on_PDF_clicked()
+/*void MainWindow::on_PDF_clicked()
 {
     {
         QSqlQuery query;
@@ -177,5 +177,34 @@ void MainWindow::on_PDF_clicked()
 
     }
 
-}
+}*/
 
+
+
+void MainWindow::on_PDF_clicked()
+{
+    QSqlQuery query;
+   // QString val = ui->label_pdf->text();
+    //query.prepare("select * from joueurs where id='"+val+"'");
+query.prepare("select * from sponsor where matri");
+ S.telechargerPDF();
+    if(query.exec()){
+
+       while(query.next())
+        {
+
+//            j.telechargerPDF(val);
+       ui->le_num_salle->setText(query.value(1).toString());
+       ui->le_departement->setCurrentText(query.value(2).toString());
+        ui->le_etage->setCurrentText(query.value(2).toString());
+         ui->le_juge->setCurrentText(query.value(2).toString());
+       ui->le_suspect->setText(query.value(0).toString());
+
+   }
+    }
+    else
+        QMessageBox::information(nullptr,QObject::tr("OK"),
+                   QObject::tr("Téléchargement terminé"), QMessageBox::Cancel);
+
+
+}
