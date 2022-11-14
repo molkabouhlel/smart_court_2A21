@@ -4,6 +4,10 @@
 #include <QIntValidator>
 #include <QMessageBox>
 #include <QSqlQuery>
+#include <QDebug>
+#include <smtp.h>
+#include<QSslSocket>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -114,9 +118,9 @@ void MainWindow::on_pb_rechercher_clicked()
         int num_salle=ui->le_rechercher->text().toInt();
         QString cin= QString::number(num_salle);
         if(num_salle!=0)
-            ui->tab_recherche->setModel(S.recherche(cin));
+            ui->tab_salle->setModel(S.recherche(cin));
         else
-            ui->tab_recherche->setModel(S.afficher());
+            ui->tab_salle->setModel(S.afficher());
 
 
 
@@ -125,11 +129,11 @@ void MainWindow::on_pb_rechercher_clicked()
 void MainWindow::on_comboBox_activated(const QString &arg1)
 {
     if(arg1=="num de salle")
-           ui->tab_recherche->setModel(S.trier(3));
+           ui->tab_salle->setModel(S.trier(3));
        else  if(arg1=="etage")
-           ui->tab_recherche->setModel(S.trier(2));
+           ui->tab_salle->setModel(S.trier(2));
        else  if(arg1=="departement")
-           ui->tab_recherche->setModel(S.trier(1));
+           ui->tab_salle->setModel(S.trier(1));
 }
 
 
@@ -137,74 +141,42 @@ void MainWindow::on_comboBox_activated(const QString &arg1)
 
 
 
-
-/*void MainWindow::on_PDF_clicked()
-{
- S.pdf();
-
-}*/
-/*void MainWindow::on_PDF_clicked()
-{
-    {
-        QSqlQuery query;
-    query.prepare("select * from SALLE where NUM_SALLE");
-     S.telechargerPDF();
-        if(query.exec()){
-
-            while(query.next())
-            {
-
-             //B.telechargerPDF(val);
-            ui->le_num_salle->setText(query.value(0).toString());
-            ui->le_etage->setCurrentText(query.value(1).toString());
-            ui->le_departement->setCurrentText(query.value(2).toString());
-            ui->le_juge->setCurrentText(query.value(3).toString());
-            ui->le_suspect->setText(query.value(4).toString());
-            QMessageBox::information(nullptr,QObject::tr("OK"),
-                       QObject::tr("Téléchargement terminé"), QMessageBox::Cancel);
-
-
-
-
-      }
-        }
-        else
-            QMessageBox::critical(nullptr, QObject::tr(" echoué"),
-                        QObject::tr("Erreur !.\n"
-                                    "Click Cancel to exit."), QMessageBox::Cancel);
-
-
-
-    }
-
-}*/
-
-
-
 void MainWindow::on_PDF_clicked()
 {
-    QSqlQuery query;
-   // QString val = ui->label_pdf->text();
-    //query.prepare("select * from joueurs where id='"+val+"'");
-query.prepare("select * from sponsor where matri");
- S.telechargerPDF();
-    if(query.exec()){
+    S.telechargerPDF();
 
-       while(query.next())
-        {
+                QMessageBox::information(nullptr,QObject::tr("OK"),
+                           QObject::tr("Téléchargement terminé"), QMessageBox::Cancel);
 
-//            j.telechargerPDF(val);
-       ui->le_num_salle->setText(query.value(1).toString());
-       ui->le_departement->setCurrentText(query.value(2).toString());
-        ui->le_etage->setCurrentText(query.value(2).toString());
-         ui->le_juge->setCurrentText(query.value(2).toString());
-       ui->le_suspect->setText(query.value(0).toString());
+}
 
-   }
-    }
-    else
-        QMessageBox::information(nullptr,QObject::tr("OK"),
-                   QObject::tr("Téléchargement terminé"), QMessageBox::Cancel);
+void MainWindow::on_sm_clicked()
+{
+    sendMail();
+
+}
+void MainWindow::mailSent(QString status)
+{
+    if(status == "Message sent")
+        QMessageBox::warning( 0, tr( "Qt Simple SMTP client" ), tr( "Message sent!\n\n" ) );
+}
+void MainWindow::sendMail()
+{
+
+    Smtp* smtp = new Smtp("ons.gharbi@esprit.tn", "211JFT8965", "smtp.gmail.com", 465);
+    connect(smtp, SIGNAL(status(QString)), this, SLOT(mailSent(QString)));
+    smtp->sendMail("onsgharbi28@gmail.com", "onsgharbi28@gmail.com","test","hola");
+}
 
 
+
+
+void MainWindow::on_alert_clicked()
+{
+    if (S.alerte()>0)
+                   {
+                       QString notif=QString::number(S.alerte())+" Matériel manquant .\n""Click Ok to exit.";
+                       QMessageBox::warning(nullptr, QObject::tr("Alerte"),notif, QMessageBox::Ok);
+                   }
+           else QMessageBox::information(nullptr, QObject::tr("OK"), QObject::tr("Matériel manquant  \n""Click Ok to exit."), QMessageBox::Ok);
 }

@@ -30,7 +30,7 @@ bool existance(QString num_salle);
 QSqlQueryModel *recherche(QString num_salle);
 QSqlQueryModel * trier(int test);
 //void pdf();
-//void  telechargerPDF();
+int alerte();
 void  telechargerPDF();
 
 

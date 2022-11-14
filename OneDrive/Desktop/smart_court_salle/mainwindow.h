@@ -35,6 +35,14 @@ private slots:
 
     void on_PDF_clicked();
 
+    void on_sm_clicked();
+
+    void mailSent(QString status);
+
+    void sendMail();
+
+    void on_alert_clicked();
+
 private:
     Ui::MainWindow *ui;
     Salle S;
