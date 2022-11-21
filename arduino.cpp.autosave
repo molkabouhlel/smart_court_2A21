@@ -1,21 +1,21 @@
 #include "arduino.h"
 #include <QDebug>
-arduino1::arduino1()
+arduino::arduino()
 {
   data="";
   arduino_port_name="";
   arduino_is_available=false;
   serial =new QSerialPort;
 }
-QString arduino1::getarduino_port_name()
+QString arduino::getarduino_port_name()
 {
     return arduino_port_name;
 }
-QSerialPort *arduino1::getserial()
+QSerialPort *arduino::getserial()
 {
     return serial;
 }
-int arduino1::connect_arduino()
+int arduino::connect_arduino()
 {
   foreach (const QSerialPortInfo &serial_port_info,QSerialPortInfo::availablePorts())
   {
@@ -45,7 +45,7 @@ int arduino1::connect_arduino()
 }
 return -1;
  }
- int arduino1::close_arduino()
+ int arduino::close_arduino()
  {
      if(serial->isOpen())
      {
@@ -54,7 +54,7 @@ return -1;
      }
      return 1;
  }
- QByteArray arduino1::read_from_arduino()
+ QByteArray arduino::read_from_arduino()
  {
      if(serial->isReadable())
      {
@@ -63,7 +63,7 @@ return -1;
  return data;
  }
 
- int arduino1::write_to_arduino(QByteArray d)
+ int arduino::write_to_arduino(QByteArray d)
  {
      if(serial->isWritable())
      {
