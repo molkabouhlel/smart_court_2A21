@@ -1,5 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+<<<<<<< HEAD
  #include <QModelIndex>
 #include <QMainWindow>
 #include <QSslError>
@@ -25,6 +26,11 @@
 #include "stmp.h"
 #include "tableprinter.h"
 #include "exportexcel.h"
+=======
+
+#include <QMainWindow>
+#include "affaire_juridique.h"
+>>>>>>> b4d9196b4bc1a0aa1c6c96ca089072fe0f0d2aa6
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -39,6 +45,7 @@ public:
     ~MainWindow();
 
 private slots:
+<<<<<<< HEAD
 
     void on_supp_clicked();
     void on_ajout_clicked();
@@ -75,4 +82,23 @@ private:
     QPainter painter;
 
 };
+=======
+    void on_ajouter_clicked();
+
+    void on_done_clicked();
+
+    void on_delete_2_clicked();
+
+    void on_supprimer_clicked();
+
+    void on_Modifier_clicked();
+
+private:
+    Ui::MainWindow *ui;
+    Affaire_juridique A;
+};
+
+
+
+>>>>>>> b4d9196b4bc1a0aa1c6c96ca089072fe0f0d2aa6
 #endif // MAINWINDOW_H
