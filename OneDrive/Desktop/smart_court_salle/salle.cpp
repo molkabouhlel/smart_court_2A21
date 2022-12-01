@@ -1,5 +1,5 @@
 #include "salle.h"
-#include "smtp.h"
+#include "smtp4.h"
 
 #include<QSqlQuery>
 #include <QtDebug>
@@ -216,27 +216,3 @@ void  Salle::telechargerPDF()
 
     }
 }
-int Salle::alerte()
-        {
-            QSqlQuery query;
-            int i=0;
-            QString testing;
-
-            query.prepare(QString("SELECT ETAT FROM SALLE"));
-            query.exec();
-            QString manque="Il y a un manque";
-            while(query.next()){
-
-                cout<<"etat du matériel "<<query.value(0).toString().toStdString()<<"  ";
-                cout<<(QString::compare(query.value(0).toString(), manque, Qt::CaseInsensitive)== STR_EQUAL)<<endl;
-
-                if(QString::compare(query.value(0).toString(), manque, Qt::CaseInsensitive)== STR_EQUAL)
-                {
-                    i++;
-                }
-            }
-
-            cout<<"valeur de i "<<i<<endl;
-
-            return i;
-        }
