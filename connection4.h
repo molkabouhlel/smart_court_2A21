@@ -4,13 +4,14 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QDebug>
-#include <QtQrCode>
 
 class Connection
 {
+    QSqlDatabase db;
 public:
     Connection();
     bool createconnect();
+    void closeconnect();
 };
 
 #endif // CONNECTION_H
