@@ -91,8 +91,8 @@ bool Suspet::existance(QString id)
         }
         if(count==1)
         {
-            msgBox.setText("id deja existe");
-            msgBox.exec();
+            //msgBox.setText("id deja existe");
+            //msgBox.exec();
             return 0;
         }
 
