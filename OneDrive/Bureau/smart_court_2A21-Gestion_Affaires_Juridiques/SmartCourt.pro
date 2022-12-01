@@ -25,7 +25,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     qrcode.cpp \
-    statistique.cpp
+    statistique_affaire.cpp
 
 HEADERS += \
     affaire_juridique.h \
@@ -34,12 +34,12 @@ HEADERS += \
     mainwindow.h \
     mapping.h \
     qrcode.hpp \
-    statistique.h
+    statistique_affaire.h
 
 FORMS += \
     localisation.ui \
     mainwindow.ui \
-    statistique.ui
+    statistique_affaire.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

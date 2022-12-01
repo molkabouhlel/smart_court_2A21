@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include "affaire_juridique.h"
-#include "statistique.h"
+#include "statistique_affaire.h"
 #include "localisation.h"
 #include "mapping.h"
 
