@@ -25,6 +25,7 @@
 #include "stmp.h"
 #include "tableprinter.h"
 #include "exportexcel.h"
+#include "arduino.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -52,7 +53,6 @@ private slots:
 
     void on_comboBox_activated(const QString &arg1);
 
-    void on_pushButton_clicked();
 
     void on_pushButton_2_clicked();
 
@@ -62,17 +62,23 @@ private slots:
 
     void on_widget_customContextMenuRequested(const QPoint &pos);
 
-    void on_imprimer_clicked();
 
     void on_pdf_clicked();
 
     void on_comboBox_2_activated(const QString &arg1);
+    void update();
+
+
 
 private:
     Ui::MainWindow *ui;
     Suspet s;
     QPrinter printer;
     QPainter painter;
+    QByteArray don;
+    QByteArray ch;
+
+    arduino A;
 
 };
 #endif // MAINWINDOW_H

@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "twilio.h"
+#include "arduino.h"
 #include <winsock2.h>
 #include <windows.h>
 #include <QPrintPreviewDialog>
@@ -44,11 +45,23 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBox->addItem("id") ;
     ui->comboBox->addItem("date de naissance");
     ui->comboBox->addItem("nom");
+    int ret=A.connect_arduino(); // lancer la connexion à arduino
+    switch(ret){
+    case(0):qDebug()<< "arduino is available and connected to : "<< A.getarduino_port_name();
+        break;
+    case(1):qDebug() << "arduino is available but not connected to :" <<A.getarduino_port_name();
+       break;
+    case(-1):qDebug() << "arduino is not available";
+    }
+     QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update())); // permet de lancer
+     //le slot update_label suite à la reception du signal readyRead (reception des données)
 }
 MainWindow::~MainWindow()
 {
+    A.close_arduino();
     delete ui;
 }
+
 void MainWindow::on_supp_clicked()
 {
     int id=ui->id->text().toInt();
@@ -120,6 +133,7 @@ void MainWindow::on_afficher_activated(const QModelIndex &index)
 {
     QString val=ui->afficher->model()->data(index).toString();
     QSqlQuery qry;
+
     qry.prepare("select * from SUSPET where id='"+val+" ' ");
     if(qry.exec())
     {
@@ -686,4 +700,60 @@ void MainWindow::on_comboBox_2_activated(const QString &arg1)
         ui->ls->show();
     }
 }
+void MainWindow::update()
+{
+    Suspet s;
 
+    don=A.read_from_arduino();
+    QByteArray d="";
+    qDebug() <<"ddddd"<<ch<<*don;
+    if(*don=='1')
+        ch=ch+'1';
+    else if(*don=='2')
+        ch=ch+'2';
+    else if(*don=='3')
+        ch=ch+'3';
+    else if(*don=='4')
+        ch=ch+'4';
+    else if(*don=='5')
+        ch=ch+'5';
+    else if(*don=='6')
+        ch=ch+'6';
+    else if(*don=='7')
+        ch=ch+'7';
+    else if(*don=='8')
+        ch=ch+'8';
+    else if(*don=='9')
+        ch=ch+'9';
+    else if(*don=='0')
+        ch=ch+'0';
+    QByteArray am="WRONG";
+    if(*don=='*')
+    {
+        QSqlQuery query;
+        QString test=QString(ch);
+        if(!s.existance(test))
+        {
+            qDebug() <<"testing"<<test;
+            QString nom,prenom;
+            query.prepare("select * from SUSPET where id='"+test+"' ");
+            if(query.exec())
+            {
+                while(query.next())
+                {
+                    nom=(query.value(1).toString());
+                    prenom=(query.value(2).toString());
+                }
+                query.exec();
+                QString tt=nom+"  "+prenom;
+                QByteArray z=tt.toUtf8();
+                A.write_to_arduino(z);
+            }
+        }
+        else
+        {
+            A.write_to_arduino("WRONG\n");
+        }
+        ch="";
+    }
+}
