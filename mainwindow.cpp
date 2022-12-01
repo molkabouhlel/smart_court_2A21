@@ -1,23 +1,23 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "affaire_juridique.h"
-#include <QMessageBox>
-#include <QIntValidator>
-
-
+#include"dialog.h"
+#include<QMessageBox>
+#include"arduino.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->Code->setValidator( new QIntValidator(0, 99999999, this));
-    ui->Nom->setMaxLength(10);
-    ui->cause->setMaxLength(10);
-
-
-    ui->Affichage->setModel(A.afficher());
-    /*for(int i=0;i<2;i++)
-    ui->Affichage->setIndexWidget(ui->Affichage->model()->index(i, 7),ui->groupBox);*/
+    int ret=a.connect_arduino(); // lancer la connexion à arduino
+        switch(ret){
+        case(0):qDebug()<< "arduino is available and connected to : "<< a.getarduino_port_name();
+            break;
+        case(1):qDebug() << "arduino is available but not connected to :" <<a.getarduino_port_name();
+           break;
+        case(-1):qDebug() << "arduino is not available";
+        }
+         QObject::connect(a.getserial(),SIGNAL(readyRead()),this,SLOT(update())); // permet de lancer
+         //le slot update_label suite à la reception du signal readyRead (reception des données)
 }
 
 MainWindow::~MainWindow()
@@ -25,82 +25,110 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_done_clicked() //Ajouter
+
+void MainWindow::on_login_clicked()
 {
-    int  code=ui->Code->text().toInt() ;
-    QString nom=ui->Nom->text();
-    QString date=ui->date->text();
-    QString cause=ui->cause->text();
-    QString type=ui->type->currentText();
-    QString classe=ui->classe->currentText();
-    QString description=ui->description->toPlainText();
-    //option
-    Affaire_juridique A(nom,code,date,cause,type,classe,description);
-    bool test=A.ajouter();
-    if(test)
+    arduino a;
+    Personnel p;
+    QString nom,mot_de_passe,grade;
+       nom=ui->nom_log->text();
+     mot_de_passe=ui->mp_log->text();
+     grade=ui->l_grade_lg->text();
+       QSqlQuery qry;
+       qry.prepare("select * from personnel where nom='"+nom+"'and mot_de_passe='"+mot_de_passe+"'and grade='"+grade+"'");
+
+       if (qry.exec())
+       {
+   int i=0;
+           while(qry.next())
+           {
+
+               i++;
+           }
+           if(i==1)
+           {
+               QMessageBox::information(nullptr,QObject::tr("login done"),
+                                        QObject::tr("login succesfully \n"
+                                                    "Click Cancel to exit."),QMessageBox::Cancel);
+
+
+               Dialog d;
+             d.setModal(true);
+               d.exec();
+               }
+
+
+             else if(i<1)
+                {
+                     QMessageBox::critical(nullptr,QObject::tr("login failed"),
+                                             QObject::tr("FAILD TO connected ..........  \n"
+                                                          "erreur erreur inaccesible \n"
+                                                         "vous n etez pas en registrer dans notre base de donner"
+                                                         "Click Cancel to exit."),QMessageBox::Cancel);
+                 }
+
+}
+}
+
+
+void MainWindow::update()
+{
+Personnel p;
+    don=a.read_from_arduino();
+    QByteArray d="";
+    qDebug() <<"ddddd"<<ch<<*don;
+
+    if(*don=='1')
+        ch=ch+'1';
+    else if(*don=='2')
+        ch=ch+'2';
+    else if(*don=='3')
+        ch=ch+'3';
+    else if(*don=='4')
+        ch=ch+'4';
+    else if(*don=='5')
+        ch=ch+'5';
+    else if(*don=='6')
+        ch=ch+'6';
+    else if(*don=='7')
+        ch=ch+'7';
+    else if(*don=='8')
+        ch=ch+'8';
+    else if(*don=='9')
+        ch=ch+'9';
+    else if(*don=='0')
+        ch=ch+'0';
+
+
+    QByteArray am="WRONG";
+
+    if(*don=='*')
     {
-        ui->Affichage->setModel(A.afficher());
-        //ui->Affichage->setIndexWidget(ui->Affichage->model()->index(1, 7),ui->delete_2);
-        QMessageBox::information(nullptr, QObject::tr("ok"),
-                    QObject::tr("ajout effectue.\n"
-                                "Click Cancel to exit."), QMessageBox::Cancel);
-    }
+
+        QSqlQuery query;
+        QString test=QString(ch);
+
+    if(!p.existance(test))
+    {
+        qDebug() <<"testing"<<test;
+        QString nom,prenom;
+        query.prepare("select * from personnel where id='"+test+"' ");
+        if(query.exec())
+        {
+            while(query.next())
+            {
+                 nom=(query.value(1).toString());
+                 prenom=(query.value(2).toString());
+            }
+        query.exec();
+        QString tt=nom+" "+prenom;
+        QByteArray z=tt.toUtf8();
+        a.write_to_arduino(z);
+    }}
     else
-        QMessageBox::critical(nullptr, QObject::tr("not ok"),
-                    QObject::tr("ajout non effectue.\n"
-                                "Click Cancel to exit."), QMessageBox::Cancel);
+        {
+    a.write_to_arduino("WRONG\n");
+        }
+        ch="";
+}}
 
-}
-
-void MainWindow::on_delete_2_clicked() //clicked on trash
-{
-
-}
-
-
-void MainWindow::on_supprimer_clicked() //clicked on "supprimer"
-{
-    int  code_supp=ui->Code_supp->text().toInt();
-    QString nom_supp=ui->Nom_supp->text();
-    bool test=A.supprimer(code_supp,nom_supp);
-    if(test)
-     {
-        ui->Affichage->setModel(A.afficher());
-        QMessageBox::information(nullptr, QObject::tr("ok"),
-                    QObject::tr("suppression effectue.\n"
-                                "Click Cancel to exit."), QMessageBox::Cancel);
-    }
-    else
-        QMessageBox::critical(nullptr, QObject::tr("not ok"),
-                    QObject::tr("suppression non effectue.\n"
-                                "Click Cancel to exit."), QMessageBox::Cancel);
-}
-
-
-void MainWindow::on_Modifier_clicked()
-{
-bool test=false;
-    int  code_mod=ui->Code_mod->text().toInt();
-
-    QString nom=ui->Nom->text();
-    QString date=ui->date->text();
-    QString cause=ui->cause->text();
-    QString type=ui->type->currentText();
-    QString classe=ui->classe->currentText();
-    QString description=ui->description->toPlainText();
-
-    Affaire_juridique A(nom,code_mod,date,cause,type,classe,description);
-    test=A.modifier(code_mod);
-
-    if(test)
-     {
-        ui->Affichage->setModel(A.afficher());
-        QMessageBox::information(nullptr, QObject::tr("ok"),
-                    QObject::tr("modification effectue.\n"
-                                "Click Cancel to exit."), QMessageBox::Cancel);
-    }
-    else
-        QMessageBox::critical(nullptr, QObject::tr("not ok"),
-                    QObject::tr("modification non effectue.\n"
-                                "Click Cancel to exit."), QMessageBox::Cancel);
-}

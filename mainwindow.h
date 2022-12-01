@@ -2,8 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "affaire_juridique.h"
-
+#include"statistique.h"
+#include"personnel.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -17,21 +17,18 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_ajouter_clicked();
+    void on_login_clicked();
 
-    void on_done_clicked();
+    void on_arduino_clicked();
+    void update();
 
-    void on_delete_2_clicked();
-
-    void on_supprimer_clicked();
-
-    void on_Modifier_clicked();
 
 private:
     Ui::MainWindow *ui;
-    Affaire_juridique A;
+      Personnel P;
+   statistique *s;
+   arduino a;
+   QByteArray don;
+     QByteArray ch;
 };
-
-
-
 #endif // MAINWINDOW_H
