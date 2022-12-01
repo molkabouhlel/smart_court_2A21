@@ -23,7 +23,7 @@ SOURCES += \
     connection.cpp \
     localisation.cpp \
     main.cpp \
-    mainwindow.cpp \
+    mainwindow_affaire.cpp \
     qrcode.cpp \
     statistique_affaire.cpp
 
@@ -31,14 +31,14 @@ HEADERS += \
     affaire_juridique.h \
     connection.h \
     localisation.h \
-    mainwindow.h \
+    mainwindow_affaire.h \
     mapping.h \
     qrcode.hpp \
     statistique_affaire.h
 
 FORMS += \
     localisation.ui \
-    mainwindow.ui \
+    mainwindow_affaire.ui \
     statistique_affaire.ui
 
 # Default rules for deployment.

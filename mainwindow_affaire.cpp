@@ -1,5 +1,5 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "mainwindow_affaire.h"
+#include "ui_mainwindow_affaire.h"
 
 #include "affaire_juridique.h"
 #include "mapping.h"
