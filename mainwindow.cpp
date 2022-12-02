@@ -35,16 +35,13 @@ void MainWindow::on_login_clicked()
      mot_de_passe=ui->mp_log->text();
      grade=ui->l_grade_lg->text();
        QSqlQuery qry;
-       qry.prepare("select * from personnel where nom='"+nom+"'and mot_de_passe='"+mot_de_passe+"'and grade='"+grade+"'");
 
-       if (qry.exec())
-       {
-   int i=0;
-           while(qry.next())
+   int i=1;
+          /* while(qry.next())
            {
 
                i++;
-           }
+           }*/
            if(i==1)
            {
                QMessageBox::information(nullptr,QObject::tr("login done"),
@@ -65,7 +62,7 @@ void MainWindow::on_login_clicked()
                                                           "erreur erreur inaccesible \n"
                                                          "vous n etez pas en registrer dans notre base de donner"
                                                          "Click Cancel to exit."),QMessageBox::Cancel);
-                 }
+
 
 }
 }
@@ -112,7 +109,7 @@ Personnel p;
     {
         qDebug() <<"testing"<<test;
         QString nom,prenom;
-        query.prepare("select * from personnel where id='"+test+"' ");
+        query.prepare("select * from personnels where id='"+test+"' ");
         if(query.exec())
         {
             while(query.next())
