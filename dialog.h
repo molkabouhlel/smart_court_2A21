@@ -14,6 +14,7 @@
 #include "personnel.h"
 #include"statistique.h"
 #include <QDialog>
+#include "salle.h"
 
 
 //amine
@@ -117,6 +118,29 @@ private slots:
 
 
         void on_modifier_2_clicked();
+        ////////////////partie ons
+        void on_pb_ajouter_clicked();
+
+        void on_pb_modif_clicked();
+
+        void on_pb_supprimer_clicked();
+
+
+
+        void on_pb_rechercher_clicked();
+
+        void on_comboBox_activated(const QString &arg1);
+
+
+
+        void on_PDF_clicked();
+
+        void on_sm_clicked();
+
+        void mailSent(QString status);
+
+        void sendMail();
+
 
 private:
     Ui::Dialog *ui;
@@ -129,6 +153,8 @@ private:
      WebAxWidget  WebAxWidget;
      localisation *l;
      Calendrier a;
+     Salle S;
+
 
 };
 

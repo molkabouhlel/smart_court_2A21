@@ -28,8 +28,11 @@ SOURCES += \
     localisation.cpp \
     main.cpp \
     mainwindow.cpp \
+    notif.cpp \
     personnel.cpp \
     qrcode.cpp \
+    salle.cpp \
+    smtp.cpp \
     statistique.cpp
 
 HEADERS += \
@@ -42,8 +45,11 @@ HEADERS += \
     localisation.h \
     mainwindow.h \
     mapping.h \
+    notif.h \
     personnel.h \
     qrcode.hpp \
+    salle.h \
+    smtp.h \
     statistique.h
 
 FORMS += \
