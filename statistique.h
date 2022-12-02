@@ -33,6 +33,8 @@ public:
     ~statistique();
     QChartView *chartView ;
 void statistique_chart();
+
+void choix_bar();
 private:
     Ui::statistique *ui;
 };

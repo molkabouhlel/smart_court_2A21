@@ -13,10 +13,31 @@
 #include <QtPrintSupport/QPrinter>
 #include<QPdfWriter>
 #include<QDebug>
+
+
+
+#include "affaire_juridique.h"
+#include "mapping.h"
+
+
+#include <QMessageBox>
+#include <QIntValidator>
+
+#include<QPrinter>
+#include<QPrintDialog>
+#include <QPrintPreviewDialog>
+#include <QPdfWriter>
+#include <QDesktopServices>
+#include <QFileDialog>
+
+#include "qrcode.cpp"
+
+QT_CHARTS_USE_NAMESPACE
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Dialog)
 {
+    //PARTIE MOLKA
     ui->setupUi(this);
     ui->l_id->setValidator(new QIntValidator(0, 99999999, this));
     ui->l_tele->setValidator(new QIntValidator(0, 99999999, this));
@@ -31,6 +52,27 @@ Dialog::Dialog(QWidget *parent) :
             ui->l_gender_2->setValidator(validator);
 
     ui->afficher_t->setModel(p.afficher());
+
+
+    //PARTIE AMINE
+   // ui->setupUi(this);
+    //controle de saisie code
+    ui->Code_A->setValidator( new QIntValidator(0, 99999999, this));
+
+    //controle de saisie nom
+    ui->Nom_A->setMaxLength(10);
+    QRegularExpression nom("^[A-Za-z]+$");
+    QValidator *validator_nom = new QRegularExpressionValidator(nom, this);
+    ui->Nom_A->setValidator(validator_nom);
+
+    //controle de saisie cause
+    ui->cause_A->setMaxLength(10);
+    QRegularExpression cause("^[A-Za-z]+$");
+    QValidator *validator_cause = new QRegularExpressionValidator(cause, this);
+    ui->cause_A->setValidator(validator_cause);
+
+
+    ui->Affichage_A->setModel(A.afficher());
 }
 
 Dialog::~Dialog()
@@ -38,6 +80,7 @@ Dialog::~Dialog()
     delete ui;
 }
 
+//***********************************MOLKA*******************************************
 void Dialog::on_chercher_clicked()
 {
     Personnel p;
@@ -208,3 +251,266 @@ void Dialog::on_trier_clicked()
            ui->afficher_t->setModel(p.tri_salaire());
           }
 }
+
+
+
+
+
+//***********************************AMINE*******************************************
+void Dialog::on_done_2_clicked() //Ajouter
+{
+
+    int code=ui->Code_A->text().toInt() ;
+    QString nom=ui->Nom_A->text();
+    QDateTime  date=ui->date_A->dateTime();
+    QString cause=ui->cause_A->text();
+    QString type=ui->type_A->currentText();
+    QString classe=ui->classe_A->currentText();
+    QString description=ui->description_A->toPlainText();
+    //option
+
+    Affaire_juridique A(nom,code,date,cause,type,classe,description);
+    bool test=A.ajouter();
+
+    if(test)
+    {
+        ui->Affichage_A->setModel(A.afficher());
+        //ui->Affichage->setIndexWidget(ui->Affichage->model()->index(1, 7),ui->delete_2);
+        QMessageBox::information(nullptr, QObject::tr("ok"),
+                    QObject::tr("ajout effectue.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+    }
+    else
+
+        QMessageBox::critical(nullptr, QObject::tr("not ok"),
+                    QObject::tr("ajout non effectue.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+
+}
+
+
+void Dialog::on_supprimer_A_clicked() //clicked on "supprimer"
+{
+    int  code_supp=ui->Code_supp_A->text().toInt();
+    QString nom_supp=ui->Nom_supp_A->text();
+    bool test=A.supprimer(code_supp,nom_supp);
+    if(test)
+     {
+        ui->Affichage_A->setModel(A.afficher());
+        QMessageBox::information(nullptr, QObject::tr("ok"),
+                    QObject::tr("suppression effectue.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+    }
+    else
+        QMessageBox::critical(nullptr, QObject::tr("not ok"),
+                    QObject::tr("suppression non effectue.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+}
+
+
+void Dialog::on_Modifier_A_clicked()//Modifier
+{
+bool test=false;
+    int  code_mod=ui->Code_mod_A->text().toInt();
+
+    QString nom=ui->Nom_A->text();
+    QDateTime  date=ui->date_A->dateTime();
+    QString cause=ui->cause_A->text();
+    QString type=ui->type_A->currentText();
+    QString classe=ui->classe_A->currentText();
+    QString description=ui->description_A->toPlainText();
+
+    Affaire_juridique A(nom,code_mod,date,cause,type,classe,description);
+    test=A.modifier(code_mod);
+
+    if(test)
+     {
+        ui->Affichage_A->setModel(A.afficher());
+        QMessageBox::information(nullptr, QObject::tr("ok"),
+                    QObject::tr("modification effectue.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+    }
+    else
+        QMessageBox::critical(nullptr, QObject::tr("not ok"),
+                    QObject::tr("modification non effectue.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+}
+
+void Dialog::on_Affichage_A_clicked(const QModelIndex &index)//Selectioner
+{
+    ui->Code_A->setText(ui->Affichage_A->model()->data(ui->Affichage_A->model()->index(index.row(),0)).toString());
+    ui->Nom_A->setText(ui->Affichage_A->model()->data(ui->Affichage_A->model()->index(index.row(),1)).toString());
+    ui->type_A->setCurrentText(ui->Affichage_A->model()->data(ui->Affichage_A->model()->index(index.row(),2)).toString());
+    ui->date_A->setDateTime(ui->Affichage_A->model()->data(ui->Affichage_A->model()->index(index.row(),3)).toDateTime());
+    ui->classe_A->setCurrentText(ui->Affichage_A->model()->data(ui->Affichage_A->model()->index(index.row(),4)).toString());
+    ui->description_A->setPlainText(ui->Affichage_A->model()->data(ui->Affichage_A->model()->index(index.row(),5)).toString());
+    ui->cause_A->setText(ui->Affichage_A->model()->data(ui->Affichage_A->model()->index(index.row(),6)).toString());
+
+
+    QString text =" code:"+ ui->Affichage_A->model()->data(ui->Affichage_A->model()->index(ui->Affichage_A->currentIndex().row(),0)).toString()
+                  +"nom: "+ui->Affichage_A->model()->data(ui->Affichage_A->model()->index(ui->Affichage_A->currentIndex().row(),1)).toString()
+                  +"type: "+ui->Affichage_A->model()->data(ui->Affichage_A->model()->index(ui->Affichage_A->currentIndex().row(),2)).toString()
+                  +"date: "+ui->Affichage_A->model()->data(ui->Affichage_A->model()->index(ui->Affichage_A->currentIndex().row(),3)).toString()
+                  +"classe: "+ui->Affichage_A->model()->data(ui->Affichage_A->model()->index(ui->Affichage_A->currentIndex().row(),4)).toString()
+                  +"description: "+ui->Affichage_A->model()->data(ui->Affichage_A->model()->index(ui->Affichage_A->currentIndex().row(),5)).toString();
+                  +"cause "+ui->Affichage_A->model()->data(ui->Affichage_A->model()->index(ui->Affichage_A->currentIndex().row(),6)).toString();
+
+          //text="user data";
+          using namespace qrcodegen;
+            // Create the QR Code object
+            QrCode qr = QrCode::encodeText( text.toUtf8().data(), QrCode::Ecc::MEDIUM );
+            qint32 sz = qr.getSize();
+            QImage im(sz,sz, QImage::Format_RGB32);
+              QRgb black = qRgb(  0,  0,  0);
+              QRgb white = qRgb(255,255,255);
+            for (int y = 0; y < sz; y++)
+              for (int x = 0; x < sz; x++)
+                im.setPixel(x,y,qr.getModule(x, y) ? black : white );
+            ui->qrcode_3->setPixmap( QPixmap::fromImage(im.scaled(200,200,Qt::KeepAspectRatio,Qt::FastTransformation),Qt::MonoOnly) );
+
+}
+
+void Dialog::on_Recherche_2_clicked()//Chercher
+{
+QString chercherbox=ui->chercherbox_A->currentText();
+
+if (chercherbox == "par defaut")
+ {
+ QString nom_recherche=ui->recherche_2->text();
+ ui->Affichage_A->setModel(A.recherchepardefaut(nom_recherche));
+ }
+else if(chercherbox == "par classe")
+ {
+ QString classe_recherche=ui->recherche_2->text();
+ ui->Affichage_A->setModel(A.rechercheparclasse(classe_recherche));
+ }
+else if (chercherbox == "par type")
+ {
+ QString type_recherche=ui->recherche_2->text();
+ ui->Affichage_A->setModel(A.recherchepartype(type_recherche));
+ }
+}
+
+void Dialog::on_refresh_A_clicked()//Actualiser
+{
+ui->Affichage_A->setModel(A.afficher());
+}
+
+void Dialog::on_trier_A_clicked()//TRI
+{
+
+    QString tribox=ui->tri_A->currentText();
+
+    if (tribox == "par defaut")
+     {
+     ui->Affichage_A->setModel(A.TRIpardefaut());
+     }
+    else if(tribox == "par classe")
+     {
+     ui->Affichage_A->setModel(A.TRIparclasse());
+     }
+    else if (tribox == "par date")
+     {
+     ui->Affichage_A->setModel(A.TRIpardate());
+     }
+}
+
+
+/*
+void Dialog::choix_bar()
+{
+    s = new statistique();
+
+    s->setWindowTitle("statistique ComboBox");
+    //s->choix_bar();
+    s->show();
+
+}*/
+
+
+void Dialog::on_pdf_A_clicked()
+{
+
+
+    QString ach=".pdf";
+        QPdfWriter pdf("C:/Users/thebe/OneDrive/Bureau/SmartCourt"+ach);
+
+
+                          QPainter painter(&pdf);
+                         int i = 4000;
+                              painter.setPen(Qt::red);
+                              painter.setFont(QFont("Impact", 30));
+                              painter.drawText(2200,1400,"Liste des affaires juridiques ");
+                              painter.setPen(Qt::black);
+                              painter.setFont(QFont("impact", 50));
+                              painter.drawRect(0,3000,9600,500);
+                              painter.setFont(QFont("impact", 11));
+                              painter.drawText(200,3300,"Code");
+                              painter.drawText(1200,3300,"Nom");
+                              painter.drawText(2400,3300,"type");
+                              painter.drawText(4400,3300,"date");
+                              painter.drawText(5900,3300,"classe");
+                              painter.drawText(6900,3300,"desctiption");
+                              painter.drawText(8400,3300,"cause");
+
+
+
+                              QSqlQuery query;
+                              query.prepare("select * from AFFAIRES_JURIDIQUES");
+                              query.exec();
+                              painter.setFont(QFont("Arial",9));
+                              while (query.next())
+                              {
+                                  painter.drawText(200,i,query.value(0).toString());
+                                  painter.drawText(1200,i,query.value(1).toString());
+                                  painter.drawText(2400,i,query.value(2).toString());
+                                  painter.drawText(4000,i,query.value(3).toString());
+                                  painter.drawText(6000,i,query.value(4).toString());
+                                  painter.drawText(7000,i,query.value(5).toString());
+                                  painter.drawText(8400,i,query.value(6).toString());
+
+
+
+                                 i = i + 500;
+                              }
+                              painter.drawRect(0,3000,9600,i-3000);
+                              int reponse = QMessageBox::question(this, "Génerer PDF", "<PDF Enregistré>...Vous Voulez Affichez Le PDF ?", QMessageBox::Yes |  QMessageBox::No);
+                                  if (reponse == QMessageBox::Yes)
+                                  {
+                                      QDesktopServices::openUrl(QUrl::fromLocalFile("C:/Users/thebe/OneDrive/Bureau/SmartCourt"+ach));
+
+                                      painter.end();
+                                  }
+                                  if (reponse == QMessageBox::No)
+                                  {
+                                       painter.end();
+                                  }
+
+
+}
+
+void Dialog::on_stat_A_clicked()
+{
+    s = new statistique();
+
+    s->setWindowTitle("statistique des affaires juridiques");
+    s->choix_bar();
+    s->show();
+}
+
+void Dialog::on_location_A_clicked()
+{
+
+    l = new localisation();
+
+    l->setWindowTitle("Map");
+    l->map();
+    l->show();
+
+
+}
+
+
+
+
+

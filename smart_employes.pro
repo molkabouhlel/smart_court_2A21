@@ -19,28 +19,40 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    affaire_juridique.cpp \
     arduino.cpp \
     connection.cpp \
     dialog.cpp \
+    localisation.cpp \
     main.cpp \
     mainwindow.cpp \
     personnel.cpp \
+    qrcode.cpp \
     statistique.cpp
 
 HEADERS += \
+    affaire_juridique.h \
     arduino.h \
     connection.h \
     dialog.h \
+    localisation.h \
     mainwindow.h \
+    mapping.h \
     personnel.h \
+    qrcode.hpp \
     statistique.h
 
 FORMS += \
     dialog.ui \
+    localisation.ui \
     mainwindow.ui \
-    statistique.ui
+    statistique.ui \
+    statistique_affaire.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    ressource.qrc
