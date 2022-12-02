@@ -843,7 +843,6 @@ color: rgb(255, 255, 255);</string>
     <zorder>groupBox_4</zorder>
     <zorder>tri_A</zorder>
    </widget>
-<<<<<<< HEAD
    <widget class="QWidget" name="tab_3">
     <attribute name="title">
      <string>Page</string>

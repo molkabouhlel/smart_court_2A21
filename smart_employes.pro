@@ -24,10 +24,7 @@ SOURCES += \
     calendrier.cpp \
     connection.cpp \
     dialog.cpp \
-<<<<<<< HEAD
     excel.cpp \
-=======
->>>>>>> ebf44bdb5d15d027bc0687731f6d93865e058fb0
     localisation.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -41,10 +38,7 @@ HEADERS += \
     calendrier.h \
     connection.h \
     dialog.h \
-<<<<<<< HEAD
     excel.h \
-=======
->>>>>>> ebf44bdb5d15d027bc0687731f6d93865e058fb0
     localisation.h \
     mainwindow.h \
     mapping.h \
