@@ -13,6 +13,7 @@
 #include <QtPrintSupport/QPrinter>
 #include<QPdfWriter>
 #include<QDebug>
+<<<<<<< HEAD
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QPrinter>
@@ -28,12 +29,28 @@
 #include "calendrier.h"
 #include <QMessageBox>
 #include <QIntValidator>
+=======
+
+
+
+#include "affaire_juridique.h"
+#include "mapping.h"
+
+
+#include <QMessageBox>
+#include <QIntValidator>
+
+>>>>>>> ebf44bdb5d15d027bc0687731f6d93865e058fb0
 #include<QPrinter>
 #include<QPrintDialog>
 #include <QPrintPreviewDialog>
 #include <QPdfWriter>
 #include <QDesktopServices>
 #include <QFileDialog>
+<<<<<<< HEAD
+=======
+
+>>>>>>> ebf44bdb5d15d027bc0687731f6d93865e058fb0
 #include "qrcode.cpp"
 
 QT_CHARTS_USE_NAMESPACE
@@ -75,6 +92,7 @@ Dialog::Dialog(QWidget *parent) :
     QValidator *validator_cause = new QRegularExpressionValidator(cause, this);
     ui->cause_A->setValidator(validator_cause);
 
+<<<<<<< HEAD
     ui->nbr_pr->setValidator(new QIntValidator(100,500, this));
     ui->tableView->setModel(a.afficher());
     QTextCharFormat format = ui->calendarWidgett->weekdayTextFormat(Qt::Saturday);
@@ -99,6 +117,9 @@ ui->dateEdit_2->setDateTime(cdt);
            chartview->resize(400,300);
 
            chartview->setRenderHint(QPainter::Antialiasing);
+=======
+
+>>>>>>> ebf44bdb5d15d027bc0687731f6d93865e058fb0
     ui->Affichage_A->setModel(A.afficher());
 }
 
@@ -538,6 +559,7 @@ void Dialog::on_location_A_clicked()
 }
 
 
+<<<<<<< HEAD
 //*************************SARRA****************************//
 
 
@@ -864,3 +886,8 @@ void Dialog::on_modifier_2_clicked()
 
     }
 }
+=======
+
+
+
+>>>>>>> ebf44bdb5d15d027bc0687731f6d93865e058fb0

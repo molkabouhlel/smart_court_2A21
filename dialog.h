@@ -33,11 +33,14 @@
 #include <QWidget>
 
 
+<<<<<<< HEAD
 //sarra
 #include"calendrier.h"
 #include <QMainWindow>
 #include <QtCharts>
 #include<QCalendarWidget>
+=======
+>>>>>>> ebf44bdb5d15d027bc0687731f6d93865e058fb0
 namespace Ui {
 class Dialog;
 }
@@ -90,6 +93,7 @@ private slots:
         void on_location_A_clicked();
 
 
+<<<<<<< HEAD
         //PARTIE SARRA
         void on_ajout_clicked();
 
@@ -117,6 +121,8 @@ private slots:
 
 
         void on_modifier_2_clicked();
+=======
+>>>>>>> ebf44bdb5d15d027bc0687731f6d93865e058fb0
 
 private:
     Ui::Dialog *ui;
@@ -128,8 +134,11 @@ private:
      QChartView *chartView ;
      WebAxWidget  WebAxWidget;
      localisation *l;
+<<<<<<< HEAD
      Calendrier a;
 
+=======
+>>>>>>> ebf44bdb5d15d027bc0687731f6d93865e058fb0
 };
 
 #endif // DIALOG_H

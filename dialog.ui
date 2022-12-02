@@ -843,6 +843,7 @@ color: rgb(255, 255, 255);</string>
     <zorder>groupBox_4</zorder>
     <zorder>tri_A</zorder>
    </widget>
+<<<<<<< HEAD
    <widget class="QWidget" name="tab_3">
     <attribute name="title">
      <string>Page</string>
@@ -1726,6 +1727,8 @@ border-radius : 40px;}</string>
      <widget class="QWidget" name="page_2"/>
     </widget>
    </widget>
+=======
+>>>>>>> ebf44bdb5d15d027bc0687731f6d93865e058fb0
    <widget class="QWidget" name="tab_8">
     <attribute name="title">
      <string>Personnel</string>
