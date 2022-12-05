@@ -845,25 +845,6 @@ void Dialog::on_pushButton_clicked()
                 ui->local->setText(local);
 }
 
-void Dialog::on_tabWidget_currentChanged(int index)
-{
-    QDate datet;
-       QSqlQuery qry;
-       QTextCharFormat formattt ;
-       formattt.setForeground(QBrush(Qt::white, Qt::SolidPattern));
-
-       qry.prepare("select DATE_D from CALENDRIER");
-       if(qry.exec())
-       {
-           while(qry.next())
-           {
-               datet=qry.value(1).toDate();
-               ui->calendarWidgett->setDateTextFormat(datet, formattt);
-
-
-           }
-       }
-}
 //caledrier
 void Dialog::on_calendarWidgett_clicked(const QDate &date)
 {

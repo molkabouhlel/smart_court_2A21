@@ -106,11 +106,6 @@ private slots:
 
 
 
-        void on_tabWidget_currentChanged(int index);
-
-
-
-
         void on_modifier_2_clicked();
         ////////////////partie ons
         void on_pb_ajouter_clicked();

@@ -42,21 +42,23 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_login_clicked()
 {
-    arduino a;
     Personnel p;
     QString nom,mot_de_passe,grade;
        nom=ui->nom_log->text();
      mot_de_passe=ui->mp_log->text();
      grade=ui->l_grade_lg->text();
        QSqlQuery qry;
+       qry.prepare("select * from personnel where nom='"+nom+"'and mot_de_passe='"+mot_de_passe+"'and grade='"+grade+"'");
 
-   int i=1;
-          /* while(qry.next())
+       if (qry.exec())
+       {
+   int i=0;
+           while(qry.next())
            {
 
                i++;
-           }*/
-           if(i==1)
+           }
+           if(i)
            {
                QMessageBox::information(nullptr,QObject::tr("login done"),
                                         QObject::tr("login succesfully \n"
@@ -69,18 +71,18 @@ void MainWindow::on_login_clicked()
                }
 
 
-             else if(i<1)
+             else
                 {
                      QMessageBox::critical(nullptr,QObject::tr("login failed"),
                                              QObject::tr("FAILD TO connected ..........  \n"
                                                           "erreur erreur inaccesible \n"
                                                          "vous n etez pas en registrer dans notre base de donner"
                                                          "Click Cancel to exit."),QMessageBox::Cancel);
+                 }
 
-
+}else
+           qDebug ()<<"matkhdemch";
 }
-}
-
 QString ch1="";
 void MainWindow::update()
 {

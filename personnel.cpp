@@ -52,7 +52,7 @@ bool Personnel::ajouter()
     QString id_string=QString::number(id);
     QString telephone_string=QString::number(telephone);
     QString salaire_string=QString::number(salaire);
-         query.prepare("INSERT INTO PERSONNELs (id, nom,prenom,date_n,lieu_t,telephone,email,salaire,grade,mot_de_passe,gender ) "
+         query.prepare("INSERT INTO PERSONNEL (id, nom,prenom,date_n,lieu_t,telephone,email,salaire,grade,mot_de_passe,gender ) "
                        "VALUES (:id, :nom, :prenom, :date_n, :lieu_t, :telephone, :email, :salaire, :grade, :mot_de_passe, :gender )");
          query.bindValue(":id",id_string);
           query.bindValue(":nom", nom);
@@ -71,7 +71,7 @@ bool Personnel::ajouter()
  QSqlQueryModel * Personnel::afficher()
  {
      QSqlQueryModel *model=new QSqlQueryModel();
-     model->setQuery("SELECT * FROM PERSONNELs");
+     model->setQuery("SELECT * FROM PERSONNEL");
            model->setHeaderData(0, Qt::Horizontal, QObject::tr("id"));
            model->setHeaderData(1, Qt::Horizontal, QObject::tr("nom"));
            model->setHeaderData(2, Qt::Horizontal, QObject::tr("prenom"));
@@ -89,7 +89,7 @@ bool Personnel::ajouter()
   bool Personnel:: supprimer(int id)
   {
       QSqlQuery query;
-           query.prepare("delete from PERSONNELs where id=:id");
+           query.prepare("delete from PERSONNEL where id=:id");
     query.bindValue(":id",id);
         return  query.exec();
   }
@@ -118,7 +118,7 @@ bool Personnel:: modifier()
 QSqlQueryModel* Personnel::chercher(int id)
 {
     QSqlQueryModel* model=new  QSqlQueryModel();
-         model->setQuery("select * from PERSONNELs where id="+QString::number(id));
+         model->setQuery("select * from PERSONNEL where id="+QString::number(id));
          model->setHeaderData(0, Qt::Horizontal, QObject::tr("id"));
          model->setHeaderData(1, Qt::Horizontal, QObject::tr("nom"));
          model->setHeaderData(2, Qt::Horizontal, QObject::tr("prenom"));
@@ -136,21 +136,21 @@ QSqlQueryModel* Personnel::chercher(int id)
 QSqlQueryModel*Personnel::tri_id()
 {
     QSqlQueryModel* model=new  QSqlQueryModel();
-    model->setQuery("SELECT *FROM PERSONNELs ORDER BY id ASC");
+    model->setQuery("SELECT *FROM PERSONNEL ORDER BY id ASC");
 
    return model;
 }
 QSqlQueryModel* Personnel::tri_nom()
 {
     QSqlQueryModel* model=new  QSqlQueryModel();
-    model->setQuery("SELECT *FROM PERSONNELs ORDER BY nom ASC");
+    model->setQuery("SELECT *FROM PERSONNEL ORDER BY nom ASC");
 
    return model;
 }
 QSqlQueryModel*Personnel::tri_salaire()
 {
     QSqlQueryModel* model=new  QSqlQueryModel();
-    model->setQuery("SELECT *FROM PERSONNELs ORDER BY salaire DESC");
+    model->setQuery("SELECT *FROM PERSONNEL ORDER BY salaire DESC");
 
    return model;
 }
@@ -162,7 +162,7 @@ bool Personnel::existance(QString id)
     QMessageBox msgBox;
     QSqlQuery query;
     int count=0;
-    query.prepare("SELECT * FROM PERSONNELs WHERE id= ?");
+    query.prepare("SELECT * FROM PERSONNEL WHERE id= ?");
     query.addBindValue(id);
     if(query.exec() )
     {
@@ -192,26 +192,26 @@ QChart * Personnel::statistique_chart()
 
     int totale=0;
 
-        query0.prepare("SELECT * FROM PERSONNELs");
+        query0.prepare("SELECT * FROM PERSONNEL");
         query0.exec();
 
         //Les classes de type violation
-        query1.prepare("SELECT * FROM PERSONNELs WHERE GENDER='femme'");
+        query1.prepare("SELECT * FROM PERSONNEL WHERE GENDER='femme'");
         query1.exec();
 
-        query2.prepare("SELECT * FROM PERSONNELs WHERE GENDER='homme' ");
+        query2.prepare("SELECT * FROM PERSONNEL WHERE GENDER='homme' ");
         query2.exec();
 
-        query3.prepare("SELECT * FROM PERSONNELs WHERE lieu_t='tunis' ");
+        query3.prepare("SELECT * FROM PERSONNEL WHERE lieu_t='tunis' ");
         query3.exec();
 
-        query4.prepare("SELECT * FROM PERSONNELs WHERE lieu_t='ariana' ");
+        query4.prepare("SELECT * FROM PERSONNEL WHERE lieu_t='ariana' ");
         query4.exec();
 
-        query5.prepare("SELECT * FROM PERSONNELs WHERE grade='ing' ");
+        query5.prepare("SELECT * FROM PERSONNEL WHERE grade='ing' ");
         query5.exec();
 
-        query6.prepare("SELECT * FROM PERSONNELs WHERE grade='technician' ");
+        query6.prepare("SELECT * FROM PERSONNEL WHERE grade='technician' ");
         query6.exec();
 
 
