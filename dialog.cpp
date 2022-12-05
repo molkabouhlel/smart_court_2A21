@@ -1004,6 +1004,8 @@ void Dialog::on_afficher_activated(const QModelIndex &index)
             ui->nome->setText(qry.value(1).toString());
             ui->pree->setText(qry.value(2).toString());
 
+            ui->nb->setText(qry.value(1).toString());
+            ui->pb->setText(qry.value(2).toString());
         }
 
     }
@@ -1058,7 +1060,7 @@ void Dialog::sendMaill()
     QString case_id=ui->case_id->text();
     QString body="mr";
     QSqlQuery qry;
-    qry.prepare("select * from AFFAIRES_JURIQIUES where CODE='"+case_id+"'");
+    qry.prepare("select * from AFFAIRES_JURIDIQUES where CODE='"+case_id+"'");
     if(qry.exec())
     {
         while(qry.next())
@@ -1072,102 +1074,6 @@ void Dialog::sendMaill()
     Smtp* smtp = new Smtp("chedhly.ghorbel@esprit.tn", "211JMT9635", "smtp.gmail.com", 465);
     connect(smtp, SIGNAL(status(QString)), this, SLOT(mailSent(QString)));
     smtp->sendMail(mail, mail,+"\tcase  details",t);}
-void Dialog::on_pdf_clicked()
-{
-    if(test)
-    {
-        QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Export PDF", QString(), "*.pdf");
-        if (QFileInfo(fileName).suffix().isEmpty())
-        {
-            fileName.append(".pdf");
-        }
-        QPrinter printer(QPrinter::PrinterResolution);
-        printer.setOutputFormat(QPrinter::PdfFormat);
-        printer.setPaperSize(QPrinter::A4);
-        printer.setOutputFileName(fileName);
-        QTextDocument doc;
-        QPdfWriter pdf(fileName);
-        QPainter painter(&pdf);
-        int i = 4000;
-        painter.setPen(Qt::red);//titre
-        painter.setFont(QFont("Cambria", 30));
-        painter.drawText(1700,1200,"LISTES DES SUSPECTS");
-        painter.setPen(Qt::black);
-        painter.setFont(QFont("Cambria",14));
-        painter.drawRect(0,3000,9600,500);
-        painter.setFont(QFont("Cambria",11));
-        painter.drawText(200,3300,"CIN");
-        painter.drawText(1300,3300,"PRENOM");
-        painter.drawText(2700,3300,"NOM");
-        painter.drawText(4000,3300,"ADRESSE");
-        painter.drawText(5300,3300,"CASE ID");
-        painter.drawText(6600,3300,"DATE");
-        QSqlQuery query;
-        query.prepare("select * from SUSPET");
-        query.exec();
-        while (query.next())
-        {
-            painter.drawText(200,i,query.value(0).toString());
-            painter.drawText(1300,i,query.value(1).toString());
-            painter.drawText(2700,i,query.value(2).toString());
-            painter.drawText(4000,i,query.value(3).toString());
-            painter.drawText(5300,i,query.value(5).toString());
-            painter.drawText(6600,i,query.value(4).toString());
-            i = i + 500;
-        }
-       // doc.setHtml("Hello, World!\nLorem ipsum dolor sit amet, consectitur adipisci elit.");
-        //  doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
-        doc.print(&printer);
-    }
-    else
-
-    {
-        int id=ui->id->text().toInt();
-
-        QString cin= QString::number(id);
-        QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Export PDF", QString(), "*.pdf");
-        if (QFileInfo(fileName).suffix().isEmpty())
-        {
-            fileName.append(".pdf");
-        }
-        QPrinter printer(QPrinter::PrinterResolution);
-        printer.setOutputFormat(QPrinter::PdfFormat);
-        printer.setPaperSize(QPrinter::A4);
-        printer.setOutputFileName(fileName);
-        QTextDocument doc;
-        QPdfWriter pdf(fileName);
-        QPainter painter(&pdf);
-        int i = 4000;
-        painter.setPen(Qt::blue);//titre
-        painter.setFont(QFont("Cambria", 30));
-        painter.drawText(1700,1200,"BULLETEIN NUMERO 3");
-        painter.setPen(Qt::red);
-        painter.setFont(QFont("Cambria",14));
-        painter.drawRect(0,3000,9600,500);
-        painter.setFont(QFont("Cambria",11));
-        painter.drawText(200,3300,"CIN");
-        painter.drawText(1300,3300,"PRENOM");
-        painter.drawText(2700,3300,"NOM");
-        painter.drawText(4000,3300,"ADRESSE");
-        painter.drawText(5300,3300,"CASE ID");
-        painter.drawText(6600,3300,"DATE");
-        QSqlQuery query;
-        query.prepare("select * from SUSPET where id='"+cin+"' ");
-        query.exec();
-        while (query.next())
-        {
-            painter.drawText(200,i,query.value(0).toString());
-            painter.drawText(1300,i,query.value(1).toString());
-            painter.drawText(2700,i,query.value(2).toString());
-            painter.drawText(4000,i,query.value(3).toString());
-            painter.drawText(5300,i,query.value(5).toString());
-            painter.drawText(6600,i,query.value(4).toString());
-            i = i + 500;
-        }
-        //  doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
-        doc.print(&printer);
-    }
-}
 void Dialog::on_modifier_3_clicked()
 {
     int n1=ui->n1->text().toInt();
@@ -1495,5 +1401,102 @@ void Dialog::on_pushButton_4_clicked()
     {
         QMessageBox::information(this, tr("Done"), QString(tr("%1 records exported!")).arg(retVal)
                                 );
+    }
+}
+
+void Dialog::on_pdf_2_clicked()
+{
+    if(test)
+    {
+        QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Export PDF", QString(), "*.pdf");
+        if (QFileInfo(fileName).suffix().isEmpty())
+        {
+            fileName.append(".pdf");
+        }
+        QPrinter printer(QPrinter::PrinterResolution);
+        printer.setOutputFormat(QPrinter::PdfFormat);
+        printer.setPaperSize(QPrinter::A4);
+        printer.setOutputFileName(fileName);
+        QTextDocument doc;
+        QPdfWriter pdf(fileName);
+        QPainter painter(&pdf);
+        int i = 4000;
+        painter.setPen(Qt::red);//titre
+        painter.setFont(QFont("Cambria", 30));
+        painter.drawText(1700,1200,"LISTES DES SUSPECTS");
+        painter.setPen(Qt::black);
+        painter.setFont(QFont("Cambria",14));
+        painter.drawRect(0,3000,9600,500);
+        painter.setFont(QFont("Cambria",11));
+        painter.drawText(200,3300,"CIN");
+        painter.drawText(1300,3300,"PRENOM");
+        painter.drawText(2700,3300,"NOM");
+        painter.drawText(4000,3300,"ADRESSE");
+        painter.drawText(5300,3300,"CASE ID");
+        painter.drawText(6600,3300,"DATE");
+        QSqlQuery query;
+        query.prepare("select * from SUSPET");
+        query.exec();
+        while (query.next())
+        {
+            painter.drawText(200,i,query.value(0).toString());
+            painter.drawText(1300,i,query.value(1).toString());
+            painter.drawText(2700,i,query.value(2).toString());
+            painter.drawText(4000,i,query.value(3).toString());
+            painter.drawText(5300,i,query.value(5).toString());
+            painter.drawText(6600,i,query.value(4).toString());
+            i = i + 500;
+        }
+       // doc.setHtml("Hello, World!\nLorem ipsum dolor sit amet, consectitur adipisci elit.");
+        //  doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
+        doc.print(&printer);
+    }
+    else
+
+    {
+        int id=ui->id_2->text().toInt();
+
+        QString cin= QString::number(id);
+        QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Export PDF", QString(), "*.pdf");
+        if (QFileInfo(fileName).suffix().isEmpty())
+        {
+            fileName.append(".pdf");
+        }
+        QPrinter printer(QPrinter::PrinterResolution);
+        printer.setOutputFormat(QPrinter::PdfFormat);
+        printer.setPaperSize(QPrinter::A4);
+        printer.setOutputFileName(fileName);
+        QTextDocument doc;
+        QPdfWriter pdf(fileName);
+        QPainter painter(&pdf);
+        int i = 4000;
+        painter.setPen(Qt::blue);//titre
+        painter.setFont(QFont("Cambria", 30));
+        painter.drawText(1700,1200,"BULLETEIN NUMERO 3");
+        painter.setPen(Qt::red);
+        painter.setFont(QFont("Cambria",14));
+        painter.drawRect(0,3000,9600,500);
+        painter.setFont(QFont("Cambria",11));
+        painter.drawText(200,3300,"CIN");
+        painter.drawText(1300,3300,"PRENOM");
+        painter.drawText(2700,3300,"NOM");
+        painter.drawText(4000,3300,"ADRESSE");
+        painter.drawText(5300,3300,"CASE ID");
+        painter.drawText(6600,3300,"DATE");
+        QSqlQuery query;
+        query.prepare("select * from SUSPET where id='"+cin+"' ");
+        query.exec();
+        while (query.next())
+        {
+            painter.drawText(200,i,query.value(0).toString());
+            painter.drawText(1300,i,query.value(1).toString());
+            painter.drawText(2700,i,query.value(2).toString());
+            painter.drawText(4000,i,query.value(3).toString());
+            painter.drawText(5300,i,query.value(5).toString());
+            painter.drawText(6600,i,query.value(4).toString());
+            i = i + 500;
+        }
+        //  doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
+        doc.print(&printer);
     }
 }

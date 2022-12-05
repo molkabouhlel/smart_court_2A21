@@ -41,7 +41,6 @@ HEADERS += \
     calendrier.h \
     connection.h \
     dialog.h \
-    excel \
     excel.h \
     localisation.h \
     mainwindow.h \

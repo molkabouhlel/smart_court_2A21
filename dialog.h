@@ -173,15 +173,14 @@ private slots:
         void mailSentt(QString);
         void sendMaill();
         void on_pushButton_3_clicked();
-        void on_pdf_clicked();
         void on_modifier_3_clicked();
         void on_ajout_2_clicked();
         void on_sm_2_clicked();
         void on_comboBox_5_activated(const QString &arg1);
         void on_supp_2_clicked();
         void on_comboBox_4_activated(const QString &arg1);
-
         void on_pushButton_4_clicked();
+        void on_pdf_2_clicked();
 
 private:
     Ui::Dialog *ui;
