@@ -8,7 +8,7 @@
 #include <QSqlQuery>
 #include <QtDebug>
 #include <QDateTime>
-
+#include <QtCharts>
 using namespace std;
 
 
@@ -48,6 +48,7 @@ public:
      QSqlQueryModel* TRIpardefaut();
      QSqlQueryModel* TRIparclasse();
      QSqlQueryModel* TRIpardate();
+     QChart *  statAffaire();
 
 
 

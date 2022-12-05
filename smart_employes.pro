@@ -21,6 +21,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     affaire_juridique.cpp \
     arduino.cpp \
+    arduino1.cpp \
     calendrier.cpp \
     connection.cpp \
     dialog.cpp \
@@ -32,12 +33,12 @@ SOURCES += \
     personnel.cpp \
     qrcode.cpp \
     salle.cpp \
-    smtp.cpp \
-    statistique.cpp
+    smtp.cpp
 
 HEADERS += \
     affaire_juridique.h \
     arduino.h \
+    arduino1.h \
     calendrier.h \
     connection.h \
     dialog.h \
@@ -49,15 +50,12 @@ HEADERS += \
     personnel.h \
     qrcode.hpp \
     salle.h \
-    smtp.h \
-    statistique.h
+    smtp.h
 
 FORMS += \
     dialog.ui \
     localisation.ui \
-    mainwindow.ui \
-    statistique.ui \
-    statistique_affaire.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

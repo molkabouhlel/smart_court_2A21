@@ -12,14 +12,12 @@
 #include<QSqlQueryModel>
 #include<QSqlQuery>
 #include "personnel.h"
-#include"statistique.h"
 #include <QDialog>
 #include "salle.h"
 
 
 //amine
 #include "affaire_juridique.h"
-#include "statistique.h"
 #include "localisation.h"
 #include "mapping.h"
 
@@ -64,8 +62,6 @@ private slots:
 
     void on_pushButton_2_clicked();
 
-    void on_stat_clicked();
-
     void on_trier_clicked();
 
 
@@ -85,8 +81,6 @@ private slots:
         void on_trier_A_clicked();
 
         void on_pdf_A_clicked();
-
-        void on_stat_A_clicked();
 
         void on_location_A_clicked();
 
@@ -145,7 +139,6 @@ private slots:
 private:
     Ui::Dialog *ui;
     Personnel p;
-     statistique *s;
 
 
      Affaire_juridique A;

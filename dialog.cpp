@@ -74,10 +74,18 @@ Dialog::Dialog(QWidget *parent) :
             ui->l_gender_2->setValidator(validator);
 
     ui->afficher_t->setModel(p.afficher());
+    QChart *chartpersonnel = new QChart();
+
+         chartpersonnel=p.statistique_chart();
+
+        QChartView *chartviewpersonnel = new QChartView(chartpersonnel,ui->widget_3);
+
+        chartviewpersonnel->resize(500,250);
+
+        chartviewpersonnel->setRenderHint(QPainter::Antialiasing);
 
 
     //PARTIE AMINE
-   // ui->setupUi(this);
     //controle de saisie code
     ui->Code_A->setValidator( new QIntValidator(0, 99999999, this));
 
@@ -92,7 +100,20 @@ Dialog::Dialog(QWidget *parent) :
     QRegularExpression cause("^[A-Za-z]+$");
     QValidator *validator_cause = new QRegularExpressionValidator(cause, this);
     ui->cause_A->setValidator(validator_cause);
+    ui->Affichage_A->setModel(A.afficher());
+    //stat
+    QChart *chartaffaire = new QChart();
 
+         chartaffaire=A.statAffaire();
+
+        QChartView *chartviewaffaire = new QChartView(chartaffaire,ui->widget_2);
+
+        chartviewaffaire->resize(400,250);
+
+        chartviewaffaire->setRenderHint(QPainter::Antialiasing);
+
+
+    //PARTIE SARRA
     ui->nbr_pr->setValidator(new QIntValidator(100,500, this));
     ui->tableView->setModel(a.afficher());
     QTextCharFormat format = ui->calendarWidgett->weekdayTextFormat(Qt::Saturday);
@@ -105,18 +126,21 @@ Dialog::Dialog(QWidget *parent) :
        ui->calendarWidgett->setWeekdayTextFormat(Qt::Thursday, format);
        ui->calendarWidgett->setWeekdayTextFormat(Qt::Friday, format);
        QDateTime cdt = QDateTime::currentDateTime();
-          ui->dateEdit->setDateTime(cdt);
-ui->dateEdit_2->setDateTime(cdt);
-//stat
+       ui->dateEdit->setDateTime(cdt);
+       ui->dateEdit_2->setDateTime(cdt);
+       //stat
        QChart *chart = new QChart();
 
             chart=a.stat();
 
            QChartView *chartview = new QChartView(chart,ui->widget);
 
-           chartview->resize(400,300);
+           chartview->resize(300,250);
 
            chartview->setRenderHint(QPainter::Antialiasing);
+
+
+           //PARTIE ONS
            ui->le_num_salle->setValidator (new QIntValidator(0, 20, this));
            ui->tab_salle->setModel(S.afficher());
 
@@ -131,8 +155,6 @@ ui->dateEdit_2->setDateTime(cdt);
                    ui->le_suspect->setValidator(validatorr);
 
 
-
-    ui->Affichage_A->setModel(A.afficher());
 }
 
 Dialog::~Dialog()
@@ -178,6 +200,16 @@ else
                 QObject::tr(" ajout non  effectue.\n"
                             "Click Cancel to exit."), QMessageBox::Cancel);
 }
+QChart *chartpersonnel = new QChart();
+
+     chartpersonnel=p.statistique_chart();
+
+    QChartView *chartviewpersonnel = new QChartView(chartpersonnel,ui->widget_3);
+
+    chartviewpersonnel->resize(500,250);
+
+    chartviewpersonnel->setRenderHint(QPainter::Antialiasing);
+
 }
 
 void Dialog::on_modifier_clicked()
@@ -209,6 +241,15 @@ void Dialog::on_modifier_clicked()
                          QObject::tr(" modification non  effectue.\n"
                                      "Click Cancel to exit."), QMessageBox::Cancel);
          }
+         QChart *chartpersonnel = new QChart();
+
+              chartpersonnel=p.statistique_chart();
+
+             QChartView *chartviewpersonnel = new QChartView(chartpersonnel,ui->widget_3);
+
+             chartviewpersonnel->resize(500,250);
+
+             chartviewpersonnel->setRenderHint(QPainter::Antialiasing);
 }
 
 void Dialog::on_supprimer_clicked()
@@ -230,6 +271,15 @@ void Dialog::on_supprimer_clicked()
                     QObject::tr(" suppression non  effectue.\n"
                                 "Click Cancel to exit."), QMessageBox::Cancel);
     }
+    QChart *chartpersonnel = new QChart();
+
+         chartpersonnel=p.statistique_chart();
+
+        QChartView *chartviewpersonnel = new QChartView(chartpersonnel,ui->widget_3);
+
+        chartviewpersonnel->resize(500,250);
+
+        chartviewpersonnel->setRenderHint(QPainter::Antialiasing);
 }
 
 void Dialog::on_pushButton_2_clicked()
@@ -273,10 +323,11 @@ void Dialog::on_pushButton_2_clicked()
                    painter.drawText(8400,i,query.value(8).toString());
                  i = i + 500;
                }
+                painter.drawRect(0,3000,9600,i-3000);
                int reponse = QMessageBox::question(this, "Génerer PDF", "<PDF Enregistré>...Vous Voulez Affichez Le PDF ?", QMessageBox::Yes |  QMessageBox::No);
                    if (reponse == QMessageBox::Yes)
                    {
-
+                   QDesktopServices::openUrl(QUrl::fromLocalFile("C:/Users/molka/OneDrive/Bureau/Doc1.pdf"));
                        painter.end();
                    }
                    if (reponse == QMessageBox::No)
@@ -285,14 +336,6 @@ void Dialog::on_pushButton_2_clicked()
                    }
 }
 
-void Dialog::on_stat_clicked()
-{
-    s = new statistique();
-
-  s->setWindowTitle("statistique");
-  s->statistique_chart();
-  s->show();
-}
 
 void Dialog::on_trier_clicked()
 {
@@ -327,7 +370,6 @@ void Dialog::on_done_2_clicked() //Ajouter
     QString type=ui->type_A->currentText();
     QString classe=ui->classe_A->currentText();
     QString description=ui->description_A->toPlainText();
-    //option
 
     Affaire_juridique A(nom,code,date,cause,type,classe,description);
     bool test=A.ajouter();
@@ -342,9 +384,20 @@ void Dialog::on_done_2_clicked() //Ajouter
     }
     else
 
-        QMessageBox::critical(nullptr, QObject::tr("not ok"),
+    {QMessageBox::critical(nullptr, QObject::tr("not ok"),
                     QObject::tr("ajout non effectue.\n"
-                                "Click Cancel to exit."), QMessageBox::Cancel);
+                                "Click Cancel to exit."), QMessageBox::Cancel);}
+
+    QChart *chartaffaire = new QChart();
+
+         chartaffaire=A.statAffaire();
+
+        QChartView *chartviewaffaire = new QChartView(chartaffaire,ui->widget_2);
+
+        chartviewaffaire->resize(400,250);
+
+        chartviewaffaire->setRenderHint(QPainter::Antialiasing);
+        chartviewaffaire->show();
 
 }
 
@@ -362,9 +415,20 @@ void Dialog::on_supprimer_A_clicked() //clicked on "supprimer"
                                 "Click Cancel to exit."), QMessageBox::Cancel);
     }
     else
-        QMessageBox::critical(nullptr, QObject::tr("not ok"),
+    {QMessageBox::critical(nullptr, QObject::tr("not ok"),
                     QObject::tr("suppression non effectue.\n"
-                                "Click Cancel to exit."), QMessageBox::Cancel);
+                                "Click Cancel to exit."), QMessageBox::Cancel);}
+
+    QChart *chartaffaire = new QChart();
+
+         chartaffaire=A.statAffaire();
+
+        QChartView *chartviewaffaire = new QChartView(chartaffaire,ui->widget_2);
+
+        chartviewaffaire->resize(400,250);
+
+        chartviewaffaire->setRenderHint(QPainter::Antialiasing);
+         chartviewaffaire->show();
 }
 
 
@@ -391,9 +455,19 @@ bool test=false;
                                 "Click Cancel to exit."), QMessageBox::Cancel);
     }
     else
-        QMessageBox::critical(nullptr, QObject::tr("not ok"),
+    {QMessageBox::critical(nullptr, QObject::tr("not ok"),
                     QObject::tr("modification non effectue.\n"
-                                "Click Cancel to exit."), QMessageBox::Cancel);
+                                "Click Cancel to exit."), QMessageBox::Cancel);}
+    QChart *chartaffaire = new QChart();
+
+         chartaffaire=A.statAffaire();
+
+        QChartView *chartviewaffaire = new QChartView(chartaffaire,ui->widget_2);
+
+        chartviewaffaire->resize(400,250);
+
+        chartviewaffaire->setRenderHint(QPainter::Antialiasing);
+         chartviewaffaire->show();
 }
 
 void Dialog::on_Affichage_A_clicked(const QModelIndex &index)//Selectioner
@@ -476,18 +550,6 @@ void Dialog::on_trier_A_clicked()//TRI
 }
 
 
-/*
-void Dialog::choix_bar()
-{
-    s = new statistique();
-
-    s->setWindowTitle("statistique ComboBox");
-    //s->choix_bar();
-    s->show();
-
-}*/
-
-
 void Dialog::on_pdf_A_clicked()
 {
 
@@ -549,14 +611,6 @@ void Dialog::on_pdf_A_clicked()
 
 }
 
-void Dialog::on_stat_A_clicked()
-{
-    s = new statistique();
-
-    s->setWindowTitle("statistique des affaires juridiques");
-    s->choix_bar();
-    s->show();
-}
 
 void Dialog::on_location_A_clicked()
 {
@@ -572,9 +626,6 @@ void Dialog::on_location_A_clicked()
 
 
 //*************************SARRA****************************//
-
-
-
 
 void Dialog::on_ajout_clicked()
 {
@@ -598,7 +649,7 @@ void Dialog::on_ajout_clicked()
         ui->nbr_pr->setText("");
          QDateTime cdt = QDateTime::currentDateTime();
         ui->dateEdit->setDateTime(cdt);
-ui->dateEdit_2->setDateTime(cdt);
+        ui->dateEdit_2->setDateTime(cdt);
 
 
 }
@@ -612,9 +663,10 @@ ui->dateEdit_2->setDateTime(cdt);
 
         QChartView *chartview = new QChartView(chart,ui->widget);
 
-        chartview->resize(400,300);
+        chartview->resize(300,250);
 
         chartview->setRenderHint(QPainter::Antialiasing);
+         chartview->show();
 }
 
 void Dialog::on_supp_clicked()
@@ -635,21 +687,23 @@ void Dialog::on_supp_clicked()
                                 "Click Cancel to exit."), QMessageBox::Cancel);
 ui->tableView->setModel(a.afficher());
  ui->calendarWidgett->setDateTextFormat(datet, formattt);
- QChart *chart = new QChart();
 
-      chart=a.stat();
-
-     QChartView *chartview = new QChartView(chart,ui->widget);
-
-     chartview->resize(400,300);
-
-     chartview->setRenderHint(QPainter::Antialiasing);
 }
     else{
 
         QMessageBox::critical(nullptr, QObject::tr("not ok"),
                     QObject::tr("suppression non effectue.\n"
                                 "Click Cancel to exit."), QMessageBox::Cancel);}
+    QChart *chart = new QChart();
+
+         chart=a.stat();
+
+        QChartView *chartview = new QChartView(chart,ui->widget);
+
+        chartview->resize(300,250);
+
+        chartview->setRenderHint(QPainter::Antialiasing);
+         chartview->show();
 
 }
 
@@ -818,8 +872,6 @@ void Dialog::on_calendarWidgett_clicked(const QDate &date)
 
 
        QSqlQuery qry;
-
-
        qry.prepare("select * from CALENDRIER ");
 
        if(qry.exec())
@@ -897,12 +949,10 @@ void Dialog::on_modifier_2_clicked()
 
     }
 }
+
+
+
 //////////////////////**ONS**/////////////////////////
-
-
-
-
-
 void Dialog::on_pb_ajouter_clicked()
 {
     int num_salle=ui->le_num_salle->text().toInt();

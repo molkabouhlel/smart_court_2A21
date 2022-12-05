@@ -4,6 +4,7 @@
 #include<QSqlQuery>
 #include<QSqlQueryModel>
 #include "arduino.h"
+#include <QtCharts>
 class Personnel
 {
 public:
@@ -42,6 +43,9 @@ QSqlQueryModel*tri_nom();
 QSqlQueryModel*tri_salaire();
 bool telechargerPDF();
 bool existance(QString );
+QChart* statistique_chart();
+
+
 private:
     int id;
   QString nom;
