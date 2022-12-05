@@ -21,7 +21,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     affaire_juridique.cpp \
     arduino.cpp \
-    arduino1.cpp \
     calendrier.cpp \
     connection.cpp \
     dialog.cpp \
@@ -33,15 +32,16 @@ SOURCES += \
     personnel.cpp \
     qrcode.cpp \
     salle.cpp \
-    smtp.cpp
+    smtp.cpp \
+    suspet.cpp
 
 HEADERS += \
     affaire_juridique.h \
     arduino.h \
-    arduino1.h \
     calendrier.h \
     connection.h \
     dialog.h \
+    excel \
     excel.h \
     localisation.h \
     mainwindow.h \
@@ -50,7 +50,8 @@ HEADERS += \
     personnel.h \
     qrcode.hpp \
     salle.h \
-    smtp.h
+    smtp.h \
+    suspet.h
 
 FORMS += \
     dialog.ui \

@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include"affaire_juridique.h"
 #include"personnel.h"
-#include "arduino1.h"
 #include "arduino.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,16 +22,11 @@ private slots:
 
     void update();
     void update_2();
-
-
-    void on_arduino_clicked();
-
 private:
     Ui::MainWindow *ui;
       Personnel P;
       Affaire_juridique A;
-   arduino a;
-   Arduino AA;
+   arduino a,AA;
    QByteArray don;
      QByteArray ch;
 };

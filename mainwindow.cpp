@@ -3,7 +3,6 @@
 #include"dialog.h"
 #include<QMessageBox>
 #include"arduino.h"
-#include"arduino1.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -148,7 +147,6 @@ Personnel p;
 
 
 
-    Arduino AA;
     QSqlQuery query;
      QByteArray data="";
    //QByteArray nom ,pwd,grade;
@@ -212,7 +210,6 @@ Personnel p;
 
 void MainWindow::update_2()
 {
-    Arduino AA;
     Affaire_juridique A;
     QSqlQuery query;
      QByteArray data="";
@@ -228,7 +225,7 @@ void MainWindow::update_2()
     if(ch1!="" && ch1.length()>=12)
        {
 
-         query.prepare("SELECT* FROM Personnels WHERE mot_de_passe='"+ch1+"'  ");
+         query.prepare("SELECT* FROM Personnel WHERE mot_de_passe='"+ch1+"'  ");
          qDebug() << query.exec();
          while (query.next())
          {
@@ -271,8 +268,3 @@ void MainWindow::update_2()
      }
 }
 
-
-void MainWindow::on_arduino_clicked()
-{
-
-}
