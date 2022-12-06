@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+<<<<<<< HEAD
 #include "twilio.h"
 #include "arduino.h"
 #include <winsock2.h>
@@ -19,12 +20,19 @@
 //#include <openssl/ssl.h>
 int test;
 using namespace std;
+=======
+#include "affaire_juridique.h"
+#include <QMessageBox>
+#include <QIntValidator>
+
+>>>>>>> b4d9196b4bc1a0aa1c6c96ca089072fe0f0d2aa6
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+<<<<<<< HEAD
     ui->ll->hide();
     ui->ls->hide();
 
@@ -56,12 +64,28 @@ MainWindow::MainWindow(QWidget *parent)
      QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update())); // permet de lancer
      //le slot update_label suite à la reception du signal readyRead (reception des données)
 }
+=======
+    ui->Code->setValidator( new QIntValidator(0, 99999999, this));
+    ui->Nom->setMaxLength(10);
+    ui->cause->setMaxLength(10);
+
+
+    ui->Affichage->setModel(A.afficher());
+    /*for(int i=0;i<2;i++)
+    ui->Affichage->setIndexWidget(ui->Affichage->model()->index(i, 7),ui->groupBox);*/
+}
+
+>>>>>>> b4d9196b4bc1a0aa1c6c96ca089072fe0f0d2aa6
 MainWindow::~MainWindow()
 {
     A.close_arduino();
     delete ui;
 }
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+>>>>>>> bafb844bcde1df28e85e4894a9407c043dff2a03
 void MainWindow::on_supp_clicked()
 {
     int id=ui->id->text().toInt();
@@ -704,6 +728,7 @@ void MainWindow::update()
 {
     Suspet s;
 
+<<<<<<< HEAD
     don=A.read_from_arduino();
     QByteArray d="";
     qDebug() <<"ddddd"<<ch<<*don;
@@ -757,3 +782,87 @@ void MainWindow::update()
         ch="";
     }
 }
+=======
+=======
+
+void MainWindow::on_done_clicked() //Ajouter
+{
+    int  code=ui->Code->text().toInt() ;
+    QString nom=ui->Nom->text();
+    QString date=ui->date->text();
+    QString cause=ui->cause->text();
+    QString type=ui->type->currentText();
+    QString classe=ui->classe->currentText();
+    QString description=ui->description->toPlainText();
+    //option
+    Affaire_juridique A(nom,code,date,cause,type,classe,description);
+    bool test=A.ajouter();
+    if(test)
+    {
+        ui->Affichage->setModel(A.afficher());
+        //ui->Affichage->setIndexWidget(ui->Affichage->model()->index(1, 7),ui->delete_2);
+        QMessageBox::information(nullptr, QObject::tr("ok"),
+                    QObject::tr("ajout effectue.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+    }
+    else
+        QMessageBox::critical(nullptr, QObject::tr("not ok"),
+                    QObject::tr("ajout non effectue.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+
+}
+
+void MainWindow::on_delete_2_clicked() //clicked on trash
+{
+
+}
+
+
+void MainWindow::on_supprimer_clicked() //clicked on "supprimer"
+{
+    int  code_supp=ui->Code_supp->text().toInt();
+    QString nom_supp=ui->Nom_supp->text();
+    bool test=A.supprimer(code_supp,nom_supp);
+    if(test)
+     {
+        ui->Affichage->setModel(A.afficher());
+        QMessageBox::information(nullptr, QObject::tr("ok"),
+                    QObject::tr("suppression effectue.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+    }
+    else
+        QMessageBox::critical(nullptr, QObject::tr("not ok"),
+                    QObject::tr("suppression non effectue.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+}
+
+
+void MainWindow::on_Modifier_clicked()
+{
+bool test=false;
+    int  code_mod=ui->Code_mod->text().toInt();
+
+    QString nom=ui->Nom->text();
+    QString date=ui->date->text();
+    QString cause=ui->cause->text();
+    QString type=ui->type->currentText();
+    QString classe=ui->classe->currentText();
+    QString description=ui->description->toPlainText();
+
+    Affaire_juridique A(nom,code_mod,date,cause,type,classe,description);
+    test=A.modifier(code_mod);
+
+    if(test)
+     {
+        ui->Affichage->setModel(A.afficher());
+        QMessageBox::information(nullptr, QObject::tr("ok"),
+                    QObject::tr("modification effectue.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+    }
+    else
+        QMessageBox::critical(nullptr, QObject::tr("not ok"),
+                    QObject::tr("modification non effectue.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+}
+>>>>>>> b4d9196b4bc1a0aa1c6c96ca089072fe0f0d2aa6
+>>>>>>> bafb844bcde1df28e85e4894a9407c043dff2a03
