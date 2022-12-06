@@ -996,23 +996,13 @@ background-color: rgb(92,184, 92);</string>
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="widget" native="true">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>440</y>
-      <width>120</width>
-      <height>80</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>450</y>
+      <x>190</x>
+      <y>440</y>
       <width>91</width>
-      <height>71</height>
+      <height>81</height>
      </rect>
     </property>
     <property name="font">
@@ -1056,7 +1046,6 @@ background-color: rgb(92,184, 92);</string>
    <zorder>groupBox_2</zorder>
    <zorder>groupBox_3</zorder>
    <zorder>groupBox_4</zorder>
-   <zorder>widget</zorder>
    <zorder>label_5</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
